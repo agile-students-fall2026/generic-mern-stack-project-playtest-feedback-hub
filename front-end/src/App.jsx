@@ -5,11 +5,13 @@ import SuccessPage from './pages/SuccessPage/SuccessPage.jsx'
 import PlaytesterHub from './pages/PlaytesterHub.jsx'
 import FeedbackHistory from './pages/FeedbackHistory.jsx'
 import AccountPage from './pages/AccountPage.jsx'
+import MainPage from './pages/MainPage.jsx';
 
 function App() {
     return (
         <Routes>
-            <Route path="/" element={<PlaytesterHub />} />
+            <Route path="/login" element={<MainPage />} />
+            <Route path="/pth" element={<PlaytesterHub />} />
             <Route path="/scan" element={<ScanPage />} />
             <Route path="/feedback" element={<FeedBackPage />} />
             <Route path="/feedback/success" element={<SuccessPage />} />
