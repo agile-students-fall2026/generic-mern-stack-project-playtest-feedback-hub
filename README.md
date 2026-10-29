@@ -42,11 +42,19 @@ Features are subject to change as development progresses.
 
 ## Getting Started
 
-The local development setup instructions will be added once the project's technology stack and dependencies have been established.
+The Sprint 1 front end uses React, React Router, and Vite. Install Node.js 22.12 or newer (Node.js 24 is recommended), then run:
+
+```sh
+cd front-end
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite, normally http://localhost:5173. No back end, database, or credentials are needed for this initial front-end workspace.
 
 ## Building and Testing
 
-Build and testing instructions will be added when the project's build process and testing framework are ready.
+From `front-end`, run `npm run build` to verify a production build. Run `npm run preview` to preview that build locally. Automated tests have not been configured yet.
 
 ## Contributing
 
