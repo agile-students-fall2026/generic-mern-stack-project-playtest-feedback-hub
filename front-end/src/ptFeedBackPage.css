@@ -1,0 +1,158 @@
+.feedback-page {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 400px;
+    min-height: 100dvh;
+    margin: 0 auto;
+    padding: 60px 20px 32px;
+    background: #ffffff;
+    color: #000000;
+    font-family: Arial, sans-serif;
+}
+
+.feedback-game {
+    margin-bottom: 48px;
+}
+
+.feedback-game-label,
+.feedback-game-developer {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+.feedback-game-title {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.feedback-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.feedback-label {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.feedback-select,
+.feedback-textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 0;
+    background: #ffffff;
+    color: #000000;
+    font: inherit;
+    font-size: 14px;
+}
+
+.feedback-select {
+    min-height: 44px;
+}
+
+.feedback-textarea {
+    min-height: 230px;
+    resize: vertical;
+}
+
+.img-feedback {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 20px;
+}
+
+.feedback-button {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px;
+    border: none;
+    border-radius: 0;
+    background: #d9d9d9;
+    color: #333333;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.feedback-button:hover {
+    background: #c9c9c9;
+}
+
+.feedback-select:focus-visible,
+.feedback-textarea:focus-visible,
+.feedback-button:focus-visible {
+    outline: 2px solid #000000;
+    outline-offset: 3px;
+}
+.feedback-shell {
+    display: flex;
+    flex-direction: column;
+    max-width: 403px;
+    min-height: 100dvh;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.feedback-shell .feedback-page {
+    flex: 1;
+    min-height: 0;
+    padding-top: 12px;
+}
+
+.feedback-shell .feedback-game {
+    margin-top: 40px;
+}
+
+.feedback-demo-note {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.feedback-image img {
+    display: block;
+    max-width: 100%;
+    max-height: 160px;
+    margin-bottom: 8px;
+}
+
+.feedback-url {
+    overflow-wrap: anywhere;
+}
+
+.feedback-anonymous {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.feedback-button:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+.history-item {
+    margin: 16px 0;
+    padding: 16px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    overflow-wrap: anywhere;
+}
+
+.history-item summary {
+    cursor: pointer;
+}

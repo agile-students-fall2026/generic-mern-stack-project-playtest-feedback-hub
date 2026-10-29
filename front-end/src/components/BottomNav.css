@@ -1,0 +1,33 @@
+.bottom-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 8px 0;
+    background: white;
+    border-top: 1px solid #808080;
+}
+
+.bottom-nav a,
+.bottom-nav-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 40px;
+    color: #808080;
+    text-decoration: none;
+}
+
+.bottom-nav svg {
+    width: 28px;
+    height: 28px;
+}
+
+.bottom-nav-logo svg {
+    width: 30px;
+    height: 30px;
+}
+
+.bottom-nav a[aria-current="page"] {
+    color: #000000;
+}
