@@ -1,18 +1,48 @@
+import { useState } from 'react'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
 import { Link } from 'react-router-dom'
 import '../ptFeedBackPage.css'
+import './AccountPage.css'
 
 function AccountPage() {
+    const [message, setMessage] = useState('')
+
+    function handleResetPassword() {
+        setMessage('Password reset is not connected yet.')
+    }
+
     return (
         <div className="feedback-shell">
             <Header />
-            <main className="feedback-page">
-                <Link to="/">‹ Back</Link>
-                <h1>Account</h1>
-                <p>You are using the front-end demo as a guest.</p>
-                <p>Sign-in and password reset are not connected yet.</p>
-                <Link to="/feedback-history">View feedback from this browser</Link>
+
+            <main className="feedback-page account-page">
+                <Link className="account-back" to="/"> &lt; Back</Link>
+
+                <div className="account-profile">
+                    <div className="account-avatar">
+                        <svg viewBox="0 0 200 200" role="img" aria-label="Default profile picture">
+                            <circle cx="100" cy="100" r="100" fill="#ccc" />
+                        </svg>
+                    </div>
+
+                    <div className="account-details">
+                        <div className="account-detail-row">
+                            <span>Username</span>
+                            <span>username</span>
+                        </div>
+                        <div className="account-detail-row">
+                            <span>Email</span>
+                            <span>user@example.com</span>
+                        </div>
+
+                        <button className="reset-password-button" onClick={handleResetPassword}>
+                            Reset Password
+                        </button>
+
+                        {message && (<p className="account-message" role="status">{message}</p>)}
+                    </div>
+                </div>
             </main>
             <BottomNav />
         </div>
