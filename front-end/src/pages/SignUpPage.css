@@ -1,0 +1,84 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.signup-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 24px;
+  text-align: center;
+  background-color: white;
+  color: black;
+}
+
+.signup-logo {
+  width: 360px;
+  height: 240px;
+  object-fit: contain;
+  margin-bottom: 32px;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.signup-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.signup-field label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.signup-field input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+  font-size: 16px;
+}
+
+.signup-field input::placeholder {
+  color: #777;
+}
+
+.signup-continue {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  background-color: black;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.signup-error {
+  margin: 0;
+  color: red;
+  font-size: 14px;
+}
+
+.signup-message {
+  margin: 0;
+  color: green;
+  font-size: 14px;
+}
