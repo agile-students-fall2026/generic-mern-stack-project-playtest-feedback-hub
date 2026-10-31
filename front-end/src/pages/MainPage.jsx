@@ -3,7 +3,11 @@ import '../pages/MainPage.css';
 function WelcomePage() {
   return (
     <main className="welcome-container">
-      <div className="logo">LOGO</div>
+      <img
+      className="logo"
+      src="/logo.png"
+      alt="Playtest Feedback Hub Logo"
+    />
 
       <h1>Welcome to Playtest Feedback Hub!</h1>
 
