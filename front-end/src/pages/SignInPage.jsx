@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
-import { Link } from  'react-router-dom'
-import Header from './components/Header.jsx'
-import BottomNav from './components/BottomNav.jsx'
+
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './SignInPage.css'
 
 function SignInPage() {
@@ -11,7 +10,7 @@ function SignInPage() {
     function handleSubmit(event) {
         event.preventDefault()
 
-        const values  = new FormData(event.currentTarget)
+        const values = new FormData(event.currentTarget)
         const email = values.get('email').trim()
         const password = values.get('password')
 
@@ -24,58 +23,62 @@ function SignInPage() {
         }
 
         setMessage('Successfully signed in!')
-        //TODO: Actual backend
+        // TODO: Connect to backend
     }
 
     return (
-        <div className="signin-shell">
-            <Header />
-            <main className="sign-in-page">
-                <Link className="auth-back" to="/">
-                    &lt; Back
-                </Link>
+        <main className="signin-page">
 
-                <div className="auth-logo" aria-label="PTF">
-                    <span className="logo-p">P</span>
-                    <span className="logo-t">T</span>
-                    <span className="logo-f">F</span>
+            <img
+                className="signin-logo"
+                src="/logo.png"
+                alt="Playtest Feedback Hub Logo"
+            />
+            
+            <form className="signin-form" onSubmit={handleSubmit}>
+
+                <div className="signin-field">
+                    <label htmlFor="signin-email">Email</label>
+                    <input
+                        id="signin-email"
+                        name="email"
+                        type="email"
+                        placeholder="Please enter your email"
+                        required
+                    />
                 </div>
 
-                {error && <p className="auth-error" role="alert">{error}</p>}
-                {message && <p className="auth-message" role="status">{message}</p>}
+                <div className="signin-field">
+                    <label htmlFor="signin-password">Password</label>
+                    <input
+                        id="signin-password"
+                        name="password"
+                        type="password"
+                        placeholder="Please enter your password"
+                        required
+                    />
+                </div>
 
-                <form className='auth-form signin-form' onSubmit={handleSubmit}>
-                    <div className="auth-field">
-                        <label htmlFor="signin-email">Email</label>
-                        <input
-                            id="signin-email"
-                            name="email"
-                            type="email"
-                            placeholder="Please enter your email"
-                            required
-                        />
-                    </div>
+                {error && (
+                    <p className="signin-error" role="alert">
+                        {error}
+                    </p>
+                )}
 
-                    <div className="auth-field">
-                        <label htmlFor="signin-password">Password</label>
-                        <input
-                            id="signin-password"
-                            name="password"
-                            type="password"
-                            placeholder="Please enter your password"
-                            required
-                        />
-                    </div>
+                {message && (
+                    <p className="signin-message" role="status">
+                        {message}
+                    </p>
+                )}
 
-                    <button className="auth-continue" type="submit">
-                        Continue
-                    </button>
-                </form>
-            </main>
-            <BottomNav />
-        </div>
+                <button className="signin-continue" type="submit">
+                    Continue
+                </button>
+
+            </form>
+
+        </main>
     )
-
 }
 
 export default SignInPage

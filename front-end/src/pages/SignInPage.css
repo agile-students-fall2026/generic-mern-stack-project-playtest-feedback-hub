@@ -1,122 +1,84 @@
-.auth-page {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 400px;
-    min-height: 100dvh;
-    margin: 0 auto;
-    padding: 60px 20px 32px;
-    background: #ffffff;
-    color: #000000;
-    font-family: Arial, sans-serif;
+
+* {
+  box-sizing: border-box;
 }
 
-.auth-back {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 48px;
-    font-size: 14px;
-    color: #000000;
-    text-decoration: none;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
-.auth-back:hover {
-    text-decoration: underline;
+.signin-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 24px;
+  text-align: center;
+  background-color: white;
+  color: black;
 }
 
-/* Logo */
-.auth-logo {
-    display: block;
-    width: 100px;
-    height: auto;
-    margin-bottom: 32px;
+.signin-logo {
+  width: 360px;
+  height: 240px;
+  object-fit: contain;
+  margin-bottom: 32px;
 }
 
-.auth-logo span {
-    display: block;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 8px;
+.signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 320px;
 }
 
-.logo-p {
-    transform: rotate(-28deg);
+.signin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
 }
 
-.logo-t {
-    transform: translateY(-12px);
+.signin-field label {
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.logo-f {
-    transform: rotate(20deg);
+.signin-field input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+  font-size: 16px;
 }
 
-/*Form*/
-.auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.signin-field input::placeholder {
+  color: #777;
 }
 
-.auth-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+.signin-continue {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  background-color: black;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.auth-field label {
-    font-size: 14px;
-    line-height: 1.4;
+.signin-error {
+  margin: 0;
+  color: red;
+  font-size: 14px;
 }
 
-.auth-field input {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #000000;
-    border-radius: 0;
-    background: #ffffff;
-    color: #000000;
-    font: inherit;
-    font-size: 14px;
+.signin-message {
+  margin: 0;
+  color: green;
+  font-size: 14px;
 }
-
-.auth-field input:focus-visible {
-    outline: 2px solid #000000;
-    outline-offset: 2px;
-}
-
-.auth-continue {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #000000;
-    border-radius: 0;
-    background: #000000;
-    color: #ffffff;
-    font: inherit;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.auth-continue:hover {
-    background: #c9c9c9;
-}
-
-.auth-continue:focus-visible {
-    outline: 2px solid #000000;
-    outline-offset: 2px;
-}
-
-/*Feedback messahes */
-.auth-error,
-.auth-message {
-    
-}
-.auth-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
