@@ -1,0 +1,122 @@
+.auth-page {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 400px;
+    min-height: 100dvh;
+    margin: 0 auto;
+    padding: 60px 20px 32px;
+    background: #ffffff;
+    color: #000000;
+    font-family: Arial, sans-serif;
+}
+
+.auth-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 48px;
+    font-size: 14px;
+    color: #000000;
+    text-decoration: none;
+}
+
+.auth-back:hover {
+    text-decoration: underline;
+}
+
+/* Logo */
+.auth-logo {
+    display: block;
+    width: 100px;
+    height: auto;
+    margin-bottom: 32px;
+}
+
+.auth-logo span {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 8px;
+}
+
+.logo-p {
+    transform: rotate(-28deg);
+}
+
+.logo-t {
+    transform: translateY(-12px);
+}
+
+.logo-f {
+    transform: rotate(20deg);
+}
+
+/*Form*/
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.auth-field label {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.auth-field input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 0;
+    background: #ffffff;
+    color: #000000;
+    font: inherit;
+    font-size: 14px;
+}
+
+.auth-field input:focus-visible {
+    outline: 2px solid #000000;
+    outline-offset: 2px;
+}
+
+.auth-continue {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 0;
+    background: #000000;
+    color: #ffffff;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.auth-continue:hover {
+    background: #c9c9c9;
+}
+
+.auth-continue:focus-visible {
+    outline: 2px solid #000000;
+    outline-offset: 2px;
+}
+
+/*Feedback messahes */
+.auth-error,
+.auth-message {
+    
+}
+.auth-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+

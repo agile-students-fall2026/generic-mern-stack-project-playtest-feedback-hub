@@ -25,6 +25,8 @@ function App() {
             <Route path="/projects" element={<MyProjects />} />
             <Route path="/projects/new" element={<AddProject />} />
             <Route path="/projects/:projectId/qr" element={<QrDisplay />} />
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
         </Routes>
     )
 }
