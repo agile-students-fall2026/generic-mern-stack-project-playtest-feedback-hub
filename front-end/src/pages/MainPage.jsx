@@ -18,4 +18,4 @@ function WelcomePage() {
   );
 }
 
-export default MainPage;
+export default WelcomePage;
