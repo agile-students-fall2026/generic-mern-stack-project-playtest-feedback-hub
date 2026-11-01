@@ -6,15 +6,33 @@ import { getProject } from '../mocks/projects.js'
 import { getProjectFeedback } from '../mocks/feedback.js'
 import './FeedbackList.css'
 
+const statusFilters = [
+  { label: 'Complete', status: 'Complete' },
+  { label: 'Incomplete', status: 'Incomplete' },
+  { label: 'Work In Progress', status: 'WIP' },
+  { label: 'Resolved', status: 'Resolved' },
+  { label: 'Assigned', status: 'Assigned' },
+]
+
 function FeedbackList() {
   const { projectId } = useParams()
   const [project, setProject] = useState(undefined)
   const [feedback, setFeedback] = useState([])
+  const [filterOpen, setFilterOpen] = useState(false)
+  const [statusFilter, setStatusFilter] = useState(null)
 
   useEffect(() => {
     getProject(projectId).then(setProject)
     getProjectFeedback(projectId).then(setFeedback)
   }, [projectId])
+
+  const shownFeedback = statusFilter === null
+    ? feedback
+    : feedback.filter((item) => item.status === statusFilter)
+
+  function toggleStatus(status) {
+    setStatusFilter(statusFilter === status ? null : status)
+  }
 
   return (
     <div className="feedback-list-page">
@@ -26,18 +44,41 @@ function FeedbackList() {
           <>
             <div className="feedback-list-heading">
               <h1>{project.name} Feedback</h1>
-              {/* Will open the status filter (Feedback Categories screen) */}
-              <button type="button" className="feedback-filter" aria-label="Filter feedback">
+              <button
+                type="button"
+                className="feedback-filter"
+                aria-label="Filter feedback by status"
+                aria-expanded={filterOpen}
+                aria-controls="feedback-filter-menu"
+                onClick={() => setFilterOpen(!filterOpen)}
+              >
                 <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
                   <path d="M5 10h22M9 16h14M13 22h6" />
                 </svg>
               </button>
             </div>
-            {feedback.length === 0 ? (
-              <p className="feedback-list-empty">No feedback yet.</p>
+            {filterOpen && (
+              <ul className="feedback-filter-menu" id="feedback-filter-menu">
+                {statusFilters.map((option) => (
+                  <li key={option.status}>
+                    <button
+                      type="button"
+                      aria-pressed={statusFilter === option.status}
+                      onClick={() => toggleStatus(option.status)}
+                    >
+                      {option.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {shownFeedback.length === 0 ? (
+              <p className="feedback-list-empty">
+                {feedback.length === 0 ? 'No feedback yet.' : 'No feedback with this status.'}
+              </p>
             ) : (
               <ul className="feedback-cards">
-                {feedback.map((item) => (
+                {shownFeedback.map((item) => (
                   <li className="feedback-card" key={item.id}>
                     <div>
                       <h2>{item.category}</h2>

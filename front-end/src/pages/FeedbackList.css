@@ -50,7 +50,8 @@
   cursor: pointer;
 }
 
-.feedback-filter:hover {
+.feedback-filter:hover,
+.feedback-filter[aria-expanded="true"] {
   background: #c9c9c9;
 }
 
@@ -62,6 +63,41 @@
 .feedback-filter svg {
   width: 28px;
   height: 28px;
+}
+
+.feedback-filter-menu {
+  box-sizing: border-box;
+  width: min(240px, 100%);
+  margin: 0 0 16px auto;
+  padding: 4px 12px;
+  background: #d9d9d9;
+  list-style: none;
+}
+
+.feedback-filter-menu li + li {
+  border-top: 1px solid #000;
+}
+
+.feedback-filter-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 2px;
+  border: none;
+  background: transparent;
+  color: #000;
+  font: inherit;
+  font-size: 18px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.feedback-filter-menu button[aria-pressed="true"] {
+  font-weight: 700;
+}
+
+.feedback-filter-menu button:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
 }
 
 .feedback-cards {
