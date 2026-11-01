@@ -18,3 +18,8 @@ const feedback = [
 export function getProjectFeedback(projectId) {
   return Promise.resolve(feedback.filter((item) => item.projectId === projectId))
 }
+
+export function getAllFeedback() {
+  const newestFirst = [...feedback].sort((a, b) => new Date(b.submitted) - new Date(a.submitted))
+  return Promise.resolve(newestFirst)
+}
