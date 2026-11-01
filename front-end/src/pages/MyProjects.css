@@ -69,8 +69,10 @@
     border-radius: 16px;
   }
   
-  .project-card > div {
+  .project-feedback-link {
     flex: 1;
+    color: #000;
+    text-decoration: none;
   }
   
   .project-card h2 {
