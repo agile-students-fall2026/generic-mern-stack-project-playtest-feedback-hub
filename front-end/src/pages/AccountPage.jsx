@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import '../ptFeedBackPage.css'
 import './AccountPage.css'
 
 function AccountPage() {
+    const location = useLocation()
     const [message, setMessage] = useState('')
 
     function handleResetPassword() {

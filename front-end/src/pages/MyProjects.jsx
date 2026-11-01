@@ -28,9 +28,9 @@ function MyProjects() {
              </svg>
            </span>
            <Link className="project-feedback-link" to={`/projects/${project.id}/feedback`}>
-             <h2>Game Name</h2>
-             <p>by Developer</p>
-             <p>submitted 01/01/2001</p>
+             <h2>{project.name}</h2>
+             <p>by {project.developer}</p>
+             <p>submitted {project.submitted}</p>
            </Link>
            <Link className="project-qr" to={`/projects/${project.id}/qr`}>
              <svg viewBox="0 0 100 100" aria-hidden="true">

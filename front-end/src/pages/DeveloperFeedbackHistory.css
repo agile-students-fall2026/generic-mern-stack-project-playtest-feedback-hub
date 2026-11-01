@@ -1,0 +1,151 @@
+.dev-history-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 403px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: #fff;
+  color: #000;
+  font-family: Arial, sans-serif;
+}
+
+.dev-history-main {
+  flex: 1;
+  box-sizing: border-box;
+  padding: 16px 20px 24px;
+}
+
+.dev-history-back {
+  color: #000;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.dev-history-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0 16px;
+}
+
+.dev-history-heading h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.dev-history-filter {
+  display: grid;
+  flex: 0 0 44px;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  background: #d9d9d9;
+  color: #000;
+  cursor: pointer;
+}
+
+.dev-history-filter:hover,
+.dev-history-filter[aria-expanded="true"] {
+  background: #c9c9c9;
+}
+
+.dev-history-filter:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 3px;
+}
+
+.dev-history-filter svg {
+  width: 28px;
+  height: 28px;
+}
+
+.dev-history-filter-menu {
+  box-sizing: border-box;
+  width: min(240px, 100%);
+  margin: 0 0 16px auto;
+  padding: 4px 12px;
+  background: #d9d9d9;
+  list-style: none;
+}
+
+.dev-history-filter-menu li + li {
+  border-top: 1px solid #000;
+}
+
+.dev-history-filter-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 2px;
+  border: none;
+  background: transparent;
+  color: #000;
+  font: inherit;
+  font-size: 18px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dev-history-filter-menu button[aria-pressed="true"] {
+  font-weight: 700;
+}
+
+.dev-history-filter-menu button:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.dev-history-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dev-history-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border: 2px solid #000;
+  border-radius: 16px;
+  color: #000;
+  text-decoration: none;
+}
+
+.dev-history-card > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.dev-history-card h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.dev-history-card p {
+  margin: 2px 0 0;
+  font-size: 13px;
+}
+
+.dev-history-status {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  min-width: 80px;
+  padding: 2px 8px;
+  background: #d9d9d9;
+  font-size: 13px;
+  text-align: center;
+}
+
+.dev-history-empty {
+  margin: 32px 0 0;
+  text-align: center;
+}
