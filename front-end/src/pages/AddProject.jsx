@@ -18,6 +18,7 @@ function AddProject() {
       setError('Game Name and Developer are required.')
       return
     }
+    const iconSeed = encodeURIComponent(name.trim().toLowerCase().replace(/\s+/g, '-'))
     addProject({
       name: name.trim(),
       developer: developer.trim(),
