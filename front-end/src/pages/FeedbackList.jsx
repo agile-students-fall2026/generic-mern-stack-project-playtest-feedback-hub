@@ -79,13 +79,19 @@ function FeedbackList() {
             ) : (
               <ul className="feedback-cards">
                 {shownFeedback.map((item) => (
-                  <li className="feedback-card" key={item.id}>
-                    <div>
-                      <h2>{item.category}</h2>
-                      <p>by {item.author}</p>
-                      <p>submitted {item.submitted}</p>
-                    </div>
-                    <span className="feedback-status">{item.status}</span>
+                  <li key={item.id}>
+                    <Link
+                      className="feedback-card"
+                      to={`/developer/feedback/${item.id}`}
+                      state={{ from: `/projects/${projectId}/feedback` }}
+                    >
+                      <div>
+                        <h2>{item.category}</h2>
+                        <p>by {item.author}</p>
+                        <p>submitted {item.submitted}</p>
+                      </div>
+                      <span className="feedback-status">{item.status}</span>
+                    </Link>
                   </li>
                 ))}
               </ul>

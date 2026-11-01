@@ -76,13 +76,19 @@ function DeveloperFeedbackHistory() {
         ) : (
           <ul className="dev-history-cards">
             {shownFeedback.map((item) => (
-              <li className="dev-history-card" key={item.id}>
-                <div>
-                  <h2>{item.gameName}</h2>
-                  <p>{item.category} · by {item.author}</p>
-                  <p>submitted {item.submitted}</p>
-                </div>
-                <span className="dev-history-status">{item.status}</span>
+              <li key={item.id}>
+                <Link
+                  className="dev-history-card"
+                  to={`/developer/feedback/${item.id}`}
+                  state={{ from: '/developer/feedback-history' }}
+                >
+                  <div>
+                    <h2>{item.gameName}</h2>
+                    <p>{item.category} · by {item.author}</p>
+                    <p>submitted {item.submitted}</p>
+                  </div>
+                  <span className="dev-history-status">{item.status}</span>
+                </Link>
               </li>
             ))}
           </ul>
