@@ -1,0 +1,23 @@
+.account-avatar {
+    width: 300px;
+    height: 300px;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.account-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.account-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.account-back {
+    color: #333333;
+    text-decoration: none;
+}

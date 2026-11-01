@@ -15,8 +15,10 @@ function Header() {
             <span className="hub-header-title">Playtest Feedback Hub</span>
             {menuOpen && (
                 <nav className="hub-menu" id="hub-menu" aria-label="Menu">
-                    <Link to="/" onClick={() => setMenuOpen(false)}>Playtester Hub</Link>
+                    <Link to="/" onClick={() => setMenuOpen(false)}>Sign Out</Link>
                     <Link to="/scan" onClick={() => setMenuOpen(false)}>Scan a QR Code</Link>
+                    <Link to="/pth" onClick={() => setMenuOpen(false)}>Playtester Hub</Link>
+                    <Link to="/developer" onClick={() => setMenuOpen(false)}>Developer Hub</Link>
                 </nav>
             )}
         </header>

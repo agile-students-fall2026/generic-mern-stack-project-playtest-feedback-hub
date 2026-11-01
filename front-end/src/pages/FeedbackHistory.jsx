@@ -20,8 +20,7 @@ function FeedbackHistory() {
             <Header />
 
             <main className="feedback-page feedback-history-page">
-                <Link className="history-back" to="/">&lt; Back</Link>
-                
+                <Link className="history-back" to="/">‹ Back</Link>
                 
                 <h1 className="history-title">Feedback Log</h1>
 
