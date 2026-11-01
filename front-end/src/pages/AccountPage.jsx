@@ -17,12 +17,12 @@ function AccountPage() {
             <Header />
 
             <main className="feedback-page account-page">
-                <Link className="account-back" to="/"> &lt; Back</Link>
+                <Link className="account-back" to="/"> ‹ Back</Link>
 
                 <div className="account-profile">
                     <div className="account-avatar">
-                        <svg viewBox="0 0 200 200" role="img" aria-label="Default profile picture">
-                            <circle cx="100" cy="100" r="100" fill="#ccc" />
+                        <svg viewBox="0 0 100 100" role="img" aria-label="Default profile picture">
+                            <circle cx="50" cy="50" r="45" fill="#ccc" />
                         </svg>
                     </div>
 
