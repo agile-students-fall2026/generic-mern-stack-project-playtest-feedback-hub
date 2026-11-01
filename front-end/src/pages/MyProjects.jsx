@@ -27,11 +27,11 @@ function MyProjects() {
                <path d="M18 18 L82 82 M82 18 L18 82" fill="none" stroke="currentColor" strokeWidth="3" />
              </svg>
            </span>
-           <div>
+           <Link className="project-feedback-link" to={`/projects/${project.id}/feedback`}>
              <h2>Game Name</h2>
              <p>by Developer</p>
              <p>submitted 01/01/2001</p>
-           </div>
+           </Link>
            <Link className="project-qr" to={`/projects/${project.id}/qr`}>
              <svg viewBox="0 0 100 100" aria-hidden="true">
                <rect x="8" y="8" width="84" height="84" rx="14" fill="none" stroke="currentColor" strokeWidth="4" />

@@ -12,6 +12,7 @@ import DeveloperHub from './pages/DeveloperHub.jsx'
 import MyProjects from './pages/MyProjects.jsx'
 import AddProject from './pages/AddProject.jsx'
 import QrDisplay from './pages/QrDisplay.jsx'
+import FeedbackList from './pages/FeedbackList.jsx'
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/projects" element={<MyProjects />} />
             <Route path="/projects/new" element={<AddProject />} />
             <Route path="/projects/:projectId/qr" element={<QrDisplay />} />
+            <Route path="/projects/:projectId/feedback" element={<FeedbackList />} />
         </Routes>
     )
 }

@@ -1,0 +1,113 @@
+.feedback-list-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 403px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: #fff;
+  color: #000;
+  font-family: Arial, sans-serif;
+}
+
+.feedback-list-main {
+  flex: 1;
+  box-sizing: border-box;
+  padding: 16px 20px 24px;
+}
+
+.feedback-list-back {
+  color: #000;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.feedback-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0 16px;
+}
+
+.feedback-list-heading h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.feedback-filter {
+  display: grid;
+  flex: 0 0 44px;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  background: #d9d9d9;
+  color: #000;
+  cursor: pointer;
+}
+
+.feedback-filter:hover {
+  background: #c9c9c9;
+}
+
+.feedback-filter:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 3px;
+}
+
+.feedback-filter svg {
+  width: 28px;
+  height: 28px;
+}
+
+.feedback-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feedback-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border: 2px solid #000;
+  border-radius: 16px;
+}
+
+.feedback-card > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.feedback-card h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.feedback-card p {
+  margin: 2px 0 0;
+  font-size: 13px;
+}
+
+.feedback-status {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  min-width: 80px;
+  padding: 2px 8px;
+  background: #d9d9d9;
+  font-size: 13px;
+  text-align: center;
+}
+
+.feedback-list-empty {
+  margin: 32px 0 0;
+  text-align: center;
+}
