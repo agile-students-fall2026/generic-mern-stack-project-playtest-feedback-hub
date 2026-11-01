@@ -1,11 +1,16 @@
-import '../pages/MainPage.css';
+import './MainPage.css';
 
-function WelcomePage() {
+function MainPage() {
   return (
     <main className="welcome-container">
-      <div className="logo">LOGO</div>
+      <img
+      className="logo"
+      src="/logo.png"
+      alt="Playtest Feedback Hub Logo"
+    />
 
-      <h1>Welcome to Playtest Feedback Hub!</h1>
+      <h1>Welcome to the<br />
+      Playtest Feedback Hub!</h1>
 
       <div className="button-container">
         <button className="sign-in">Sign in</button>
@@ -18,4 +23,4 @@ function WelcomePage() {
   );
 }
 
-export default WelcomePage;
+export default MainPage;
