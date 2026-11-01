@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import '../ptFeedBackPage.css'
 import './AccountPage.css'
 
 function AccountPage() {
+    const location = useLocation()
     const [message, setMessage] = useState('')
 
     function handleResetPassword() {
@@ -17,7 +18,7 @@ function AccountPage() {
             <Header />
 
             <main className="feedback-page account-page">
-                <Link className="account-back" to="/"> &lt; Back</Link>
+                <Link className="account-back" to={location.state?.from ?? '/'}> &lt; Back</Link>
 
                 <div className="account-profile">
                     <div className="account-avatar">

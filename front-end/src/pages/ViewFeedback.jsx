@@ -6,11 +6,20 @@ import { getProject } from '../mocks/projects.js'
 import { getFeedback, updateFeedbackStatus } from '../mocks/feedback.js'
 import './ViewFeedback.css'
 
+const statusOptions = [
+  { label: 'Complete', status: 'Complete' },
+  { label: 'Incomplete', status: 'Incomplete' },
+  { label: 'Work In Progress', status: 'WIP' },
+  { label: 'Resolved', status: 'Resolved' },
+  { label: 'Assigned', status: 'Assigned' },
+]
+
 function ViewFeedback() {
   const { feedbackId } = useParams()
   const location = useLocation()
   const [feedback, setFeedback] = useState(undefined)
   const [project, setProject] = useState(null)
+  const [statusOpen, setStatusOpen] = useState(false)
   const backTo = location.state?.from ?? '/developer/feedback-history'
 
   useEffect(() => {
@@ -20,8 +29,9 @@ function ViewFeedback() {
     })
   }, [feedbackId])
 
-  function markResolved() {
-    updateFeedbackStatus(feedback.id, 'Resolved').then(setFeedback)
+  function changeStatus(status) {
+    setStatusOpen(false)
+    updateFeedbackStatus(feedback.id, status).then(setFeedback)
   }
 
   return (
@@ -30,7 +40,38 @@ function ViewFeedback() {
       <main className="view-feedback-main">
         <div className="view-feedback-top">
           <Link className="view-feedback-back" to={backTo}>‹ Back</Link>
-          {feedback && <span className="view-feedback-status">Status: {feedback.status}</span>}
+          {feedback && (
+            <div className="view-feedback-status-picker">
+              <button
+                type="button"
+                className="view-feedback-status"
+                aria-label={`Status: ${feedback.status}. Change status`}
+                aria-expanded={statusOpen}
+                aria-controls="view-feedback-status-menu"
+                onClick={() => setStatusOpen(!statusOpen)}
+              >
+                Status: {feedback.status}
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M2 4l4 4 4-4" />
+                </svg>
+              </button>
+              {statusOpen && (
+                <ul className="view-feedback-status-menu" id="view-feedback-status-menu">
+                  {statusOptions.map((option) => (
+                    <li key={option.status}>
+                      <button
+                        type="button"
+                        aria-pressed={feedback.status === option.status}
+                        onClick={() => changeStatus(option.status)}
+                      >
+                        {option.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
         </div>
         {feedback === null && <p>Feedback not found.</p>}
         {feedback && project && (
@@ -69,7 +110,7 @@ function ViewFeedback() {
             <button
               type="button"
               className="view-feedback-resolve"
-              onClick={markResolved}
+              onClick={() => changeStatus('Resolved')}
               disabled={feedback.status === 'Resolved'}
             >
               {feedback.status === 'Resolved' ? 'Resolved' : 'Mark Resolved'}

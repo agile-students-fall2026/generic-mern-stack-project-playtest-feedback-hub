@@ -12,7 +12,7 @@ function DeveloperHub() {
         <h1 className="success-message">Developer Hub</h1>
         <div className="success-actions">
           <Link className="success-link" to="/projects">My Projects</Link>
-          <Link className="success-link" to="/account">Account</Link>
+          <Link className="success-link" to="/account" state={{ from: '/developer' }}>Account</Link>
           <Link className="success-link" to="/developer/feedback-history">Feedback History</Link>
           <Link className="success-link" to="/pth">Switch to Playtester Mode</Link>
         </div>
