@@ -10,6 +10,9 @@ const feedback = [
   { id: '9', projectId: '2', category: 'Gameplay', author: 'Anonymous', submitted: '02/18/2001', status: 'Assigned' },
   { id: '10', projectId: '3', category: 'Audio', author: 'Theo Grant', submitted: '03/04/2001', status: 'Incomplete' },
   { id: '11', projectId: '3', category: 'Bugs', author: 'Riley Kim', submitted: '03/06/2001', status: 'Complete' },
+  { id: '12', projectId: '1', category: 'Bugs', author: 'Ava Brooks', submitted: '01/10/2001', status: 'WIP' },
+  { id: '13', projectId: '1', category: 'Art', author: 'Anonymous', submitted: '01/11/2001', status: 'Resolved' },
+  { id: '14', projectId: '1', category: 'Gameplay', author: 'Marcus Hill', submitted: '01/12/2001', status: 'Assigned' },
 ]
 
 export function getProjectFeedback(projectId) {
