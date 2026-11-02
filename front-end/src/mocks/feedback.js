@@ -17,7 +17,7 @@ const feedback = [
     submitted: '01/03/2001',
     status: 'Incomplete',
     text: 'The storm section felt too hard compared to everything before it. Maybe add a checkpoint halfway through or slow the waves down a little.',
-    images: [],
+    images: ['https://picsum.photos/seed/fb-3a/300/340'],
   },
   {
     id: '3',
