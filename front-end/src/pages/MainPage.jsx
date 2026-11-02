@@ -1,8 +1,9 @@
 import './MainPage.css';
+import { Link } from 'react-router-dom'
 
 function MainPage() {
   return (
-    <main className="welcome-container">
+    <main className="welcome-page">
       <img
       className="logo"
       src="/logo.png"
@@ -13,10 +14,12 @@ function MainPage() {
       Playtest Feedback Hub!</h1>
 
       <div className="button-container">
-        <button className="sign-in">Sign in</button>
+        <Link to="/signin" className="sign-in">
+          Sign In
+        </Link>
 
         <p className="signup-text">
-          or <a href="/signup">Sign up</a>
+          or <Link to="/signup">Sign up</Link>
         </p>
       </div>
     </main>

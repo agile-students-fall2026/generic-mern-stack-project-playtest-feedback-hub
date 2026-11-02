@@ -28,6 +28,10 @@ function SignInPage() {
 
     return (
         <main className="signin-page">
+            
+            <Link className="auth-back" to="/">
+                ‹ Back
+            </Link>
 
             <img
                 className="signin-logo"

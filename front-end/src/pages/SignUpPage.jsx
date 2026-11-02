@@ -1,5 +1,6 @@
 
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './SignUpPage.css'
 
 function SignUpPage() {
@@ -33,6 +34,10 @@ function SignUpPage() {
 
     return (
         <main className="signup-page">
+
+            <Link className="auth-back" to="/">
+                ‹ Back
+            </Link>
 
             <img
                 className="signup-logo"
