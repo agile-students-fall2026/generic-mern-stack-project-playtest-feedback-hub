@@ -1,11 +1,11 @@
-
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './SignInPage.css'
 
 function SignInPage() {
     const [error, setError] = useState('')
     const [message, setMessage] = useState('')
+    const navigate = useNavigate()
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -21,9 +21,9 @@ function SignInPage() {
             setError('Please fill in the required fields.')
             return
         }
-
-        setMessage('Successfully signed in!')
         // TODO: Connect to backend
+
+        navigate('/developer')
     }
 
     return (

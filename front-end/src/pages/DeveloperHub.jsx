@@ -14,7 +14,7 @@ function DeveloperHub() {
           <Link className="success-link" to="/projects">My Projects</Link>
           <Link className="success-link" to="/account" state={{ from: '/developer' }}>Account</Link>
           <Link className="success-link" to="/developer/feedback-history">Feedback History</Link>
-          <Link className="success-link" to="/pth">Switch to Playtester Mode</Link>
+          <Link className="success-link" to="/playtester">Switch to Playtester Mode</Link>
         </div>
       </main>
       <BottomNav />
