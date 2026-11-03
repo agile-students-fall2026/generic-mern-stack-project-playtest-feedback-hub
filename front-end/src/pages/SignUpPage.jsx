@@ -1,11 +1,11 @@
-
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './SignUpPage.css'
 
 function SignUpPage() {
     const [error, setError] = useState('')
     const [message, setMessage] = useState('')
+    const navigate = useNavigate()
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -27,9 +27,9 @@ function SignUpPage() {
             setError('Passwords do not match.')
             return
         }
-
-        setMessage('Account created successfully!')
         // TODO: Connect to backend
+
+        navigate('/developer')
     }
 
     return (
