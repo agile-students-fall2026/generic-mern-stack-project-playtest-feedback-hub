@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import Header from './components/Header.jsx'
 import BottomNav from './components/BottomNav.jsx'
 import { getGame, submitFeedback } from './services/feedbackApi.js'
@@ -15,6 +15,7 @@ function FeedBackPage() {
     const [urls, setUrls] = useState([])
     const [url, setUrl] = useState('')
     const [busy, setBusy] = useState(false)
+    const [attachmentsOpen, setAttachmentsOpen] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -76,16 +77,15 @@ function FeedBackPage() {
     }
 
     return (
-        <div className="feedback-shell">
+        <div className="feedback-shell write-feedback-shell">
             <Header />
             <main className="feedback-page">
-                <Link to="/scan">‹ Back</Link>
                 <header className="feedback-game">
                     <p className="feedback-game-label">Playtest Feedback for</p>
                     <h1 className="feedback-game-title">{game?.name || 'Loading game…'}</h1>
                     <p className="feedback-game-developer">{game && `by ${game.developer}`}</p>
+                    <svg className="feedback-game-placeholder" viewBox="0 0 84 84" role="img" aria-label="Project image placeholder"><rect x="1" y="1" width="82" height="82" rx="28" /><path d="m9 9 66 66M75 9 9 75" /></svg>
                 </header>
-                <p className="feedback-demo-note">Demo: submissions stay in this browser. Images are previewed only; their filenames are saved.</p>
                 {error && <p role="alert">{error}</p>}
                 <form className="feedback-form" onSubmit={handleSubmit}>
                     <div className="feedback-field">
@@ -101,10 +101,12 @@ function FeedBackPage() {
                     </div>
                     <div className="feedback-field">
                         <label className="feedback-label" htmlFor="feedback">Feedback*</label>
-                        <textarea className="feedback-textarea" id="feedback" name="feedback" required rows={5} placeholder="Write your feedback here…" />
+                        <textarea className="feedback-textarea" id="feedback" name="feedback" required rows={5} placeholder="Write your feedback here..." />
                     </div>
                     <div className="feedback-field">
                         <label className="feedback-label" htmlFor="images">Add images (optional)</label>
+                        <button className="attachment-toggle" type="button" aria-expanded={attachmentsOpen} aria-controls="feedback-attachments" onClick={() => setAttachmentsOpen(!attachmentsOpen)}>Add Images / URLs...</button>
+                        <div id="feedback-attachments" hidden={!attachmentsOpen}>
                         <input id="images" type="file" accept="image/*" multiple onChange={event => {
                             const selected = Array.from(event.target.files)
                             if (selected.some(file => !file.type.startsWith('image/') || file.size > 5 * 1024 * 1024)) {
@@ -130,12 +132,13 @@ function FeedBackPage() {
                                 <button type="button" onClick={() => setUrls(urls.filter((_, i) => i !== index))}>Remove link</button>
                             </div>
                         ))}
+                        </div>
                     </div>
                     <label className="feedback-anonymous">
                         <input type="checkbox" name="anonymous" />
                         Check this box if you would like your feedback to be sent anonymously.
                     </label>
-                    <button className="feedback-button" type="submit" disabled={busy || !game}>{busy ? 'Submitting…' : 'Submit'}</button>
+                    <button className="feedback-button feedback-submit" type="submit" disabled={busy || !game}>{busy ? 'Submitting…' : 'Submit'}</button>
                 </form>
             </main>
             <BottomNav />

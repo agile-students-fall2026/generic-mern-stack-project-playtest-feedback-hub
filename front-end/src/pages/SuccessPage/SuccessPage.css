@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 403px;
+    max-width: 402px;
     min-height: 100dvh;
     margin: 0 auto;
     background: #fff;
@@ -52,4 +52,44 @@
 .success-link:focus-visible {
     outline: 2px solid #000;
     outline-offset: 3px;
+}
+
+.playtester-hub .success-main {
+    padding: 28px 32px 60px;
+}
+
+.hub-welcome {
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.playtester-hub .success-message {
+    margin: 0 0 62px;
+    font-size: 32px;
+    line-height: 38px;
+}
+
+.playtester-hub .success-actions {
+    max-width: 338px;
+    gap: 29px;
+}
+
+.playtester-hub .success-link {
+    min-height: 75px;
+    font-size: 24px;
+}
+
+.feedback-success .success-main {
+    padding: 252px 20px 60px;
+}
+
+.feedback-success .success-message {
+    margin-bottom: 36px;
+    white-space: nowrap;
+    font-size: clamp(16px, 5vw, 20px);
+}
+
+@media (max-width: 360px) {
+    .playtester-hub .success-link { font-size: 20px; }
 }

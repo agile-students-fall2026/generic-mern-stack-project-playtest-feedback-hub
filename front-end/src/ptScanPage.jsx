@@ -6,7 +6,6 @@ import BottomNav from './components/BottomNav.jsx'
 import './ptScanPage.css'
 
 function ScanPage() {
-    const [link, setLink] = useState('')
     const [error, setError] = useState('')
     const navigate = useNavigate()
 
@@ -19,45 +18,30 @@ function ScanPage() {
         }
     }
 
-    function scan() {
-        try {
-            const parsed = new URL(link)
-            const id = parsed.searchParams.get('game')
-            if (!id) throw new Error()
-            openPlaytest(id)
-        } catch {
-            setError('Paste a full playtest URL containing ?game=… or use the demo below.')
-        }
-    }
-
     return (
     <div className="scan-page">
       <Header />
 
       <main className="scan-main">
-        <Link className="scan-back" to="/">
+        <Link className="scan-back" to="/playtester">
           ‹ Back
         </Link>
 
         <section className="scan-content">
-          <h1 className="scan-title">Scan QR Code</h1>
+          <h1 className="scan-title">Scan QR Code.</h1>
 
           <div className="scan-preview">
-            <p>Paste a playtest QR link below</p>
+            <svg viewBox="0 0 300 300" role="img" aria-label="Camera preview placeholder"><path d="M0 0 300 300M300 0 0 300" /></svg>
           </div>
 
           <p className="scan-description">
-            Scan a QR code to write your feedback on a project.
+            Scan a QR Code to write<br />your feedback on a project
           </p>
 
-          <label htmlFor="playtest-link">Playtest link</label>
-          <input className="scan-link-input" id="playtest-link" type="url" value={link} onChange={event => setLink(event.target.value)} placeholder="https://example.com/feedback?game=demo" />
           {error && <p role="alert">{error}</p>}
-          <button className="scan-button" type="button" onClick={scan}>
+          <button className="scan-button" type="button" onClick={() => openPlaytest('demo')}>
             Scan
           </button>
-          <p>Camera scanning is not connected in this demo.</p>
-          <button className="scan-button" type="button" onClick={() => openPlaytest('demo')}>Try demo playtest</button>
         </section>
       </main>
 

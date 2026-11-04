@@ -156,3 +156,22 @@
 .history-item summary {
     cursor: pointer;
 }
+
+/* Write Feedback frame: keep these rules scoped to this page. */
+.write-feedback-shell { max-width: 402px; color: #000; background: #fff; }
+.write-feedback-shell .feedback-page { max-width: none; padding: 50px 20px 34px; }
+.write-feedback-shell .feedback-game { position: relative; height: 84px; box-sizing: border-box; margin: 0 0 38px; padding-top: 14px; padding-right: 90px; }
+.write-feedback-shell .feedback-game-label { font-size: 11px; }
+.write-feedback-shell .feedback-game-title { font-size: 24px; line-height: 27px; }
+.write-feedback-shell .feedback-game-developer { font-size: 14px; }
+.feedback-game-placeholder { position: absolute; top: 0; right: -2px; width: 84px; height: 84px; fill: none; stroke: #000; stroke-width: 2; }
+.write-feedback-shell .feedback-form { gap: 20px; }
+.write-feedback-shell .feedback-field { gap: 4px; }
+.write-feedback-shell .feedback-label { font-size: 13px; line-height: 16px; }
+.write-feedback-shell .feedback-select { min-height: 45px; font-size: 13px; padding: 8px; }
+.write-feedback-shell .feedback-textarea { min-height: 234px; font-size: 13px; padding: 9px; resize: vertical; }
+.attachment-toggle { width: 100%; min-height: 45px; border: 0; border-radius: 0; background: #d9d9d9; color: #707070; font: 13px Arial, sans-serif; cursor: pointer; }
+.write-feedback-shell .feedback-anonymous { gap: 10px; font-size: 13px; line-height: 16px; }
+.write-feedback-shell .feedback-anonymous input { appearance: none; flex: 0 0 18px; width: 18px; height: 18px; margin: 0; border: 1px solid #000; border-radius: 0; }
+.write-feedback-shell .feedback-anonymous input:checked { appearance: auto; accent-color: #000; }
+.write-feedback-shell .feedback-submit { align-self: center; width: 103px; min-height: 32px; margin-top: -16px; padding: 5px; border: 1px solid #000; background: #fff; color: #000; font-size: 13px; }
