@@ -5,13 +5,13 @@ import './SuccessPage.css'
 
 function SuccessPage() {
     return (
-        <div className="success-page">
+        <div className="success-page feedback-success">
             <Header />
             <main className="success-main">
                 <h1 className="success-message">Thank you for submitting feedback!</h1>
                 <div className="success-actions">
                     <Link className="success-link" to="/scan">Scan another QR Code</Link>
-                    <Link className="success-link" to="/">Go to Playtest Hub</Link>
+                    <Link className="success-link" to="/playtester">Go to Playtest Hub</Link>
                 </div>
             </main>
             <BottomNav />
