@@ -52,9 +52,21 @@ npm run dev
 
 Open the local URL printed by Vite, normally http://localhost:5173. No back end, database, or credentials are needed for this initial front-end workspace.
 
+The back end uses Express.js. In a second terminal, run:
+
+```sh
+cd back-end
+npm install
+npm run dev
+```
+
+The server runs at http://localhost:3000. Check it with http://localhost:3000/api/health.
+
 ## Building and Testing
 
-From `front-end`, run `npm run build` to verify a production build. Run `npm run preview` to preview that build locally. Automated tests have not been configured yet.
+From `front-end`, run `npm run build` to verify a production build. Run `npm run preview` to preview that build locally.
+
+From `back-end`, run `npm test` to run the mocha and chai unit tests. Run `npm run coverage` to see code coverage with c8.
 
 ## Contributing
 
