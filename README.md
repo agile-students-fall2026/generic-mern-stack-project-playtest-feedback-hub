@@ -79,3 +79,23 @@ Before contributing, please read our [Contributing Guidelines](./CONTRIBUTING.md
 - [Contributing Guidelines](./CONTRIBUTING.md) — Rules and procedures for contributing to the project.
 
 Additional documentation will be linked here as it becomes available.
+
+## Account Registration (Sprint 2)
+
+Open `/signup` and enter an email and matching passwords (8–128 characters).
+The form posts JSON to `POST /api/auth/register`, shows validation or duplicate-email
+errors, and displays a sign-in link after a successful registration.
+
+The endpoint returns `{user: {id, email}}` with status 201. Email addresses are
+trimmed and normalized to lowercase; duplicate registrations return 409, invalid
+credentials return 400, and non-JSON requests return 415. Passwords use salted
+scrypt hashes and are never returned to the browser. Registration does not create
+a login session; login and session handling are a separate change.
+
+Accounts are stored in memory for Sprint 2 and are cleared when the backend restarts.
+Persistent storage and production hardening are follow-up work.
+
+Run `npm test` in `back-end` for the registration and existing API tests, and
+`npm run build` in `front-end` to check the UI build. To review manually, register a
+new email, verify the success message, then repeat with the same email and confirm
+the duplicate-account error. Also check mismatched passwords.
