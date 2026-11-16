@@ -9,13 +9,11 @@ body {
 }
 
 .auth-back {
-  width: 100%;
-  max-width: 320px;
-  display: block;
-  margin-bottom: 16px;
+  position: absolute;
+  top: 24px;
+  left: 24px;
   color: #333333;
   text-decoration: none;
-  text-align: left;
   font-size: 16px;
 }
 
@@ -50,6 +48,7 @@ body {
   gap: 16px;
   width: 100%;
   max-width: 320px;
+  transform: translateY(-50px);
 }
 
 .signup-field {
@@ -86,6 +85,7 @@ body {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  transform: translateY(35px);
 }
 
 .signup-error {
