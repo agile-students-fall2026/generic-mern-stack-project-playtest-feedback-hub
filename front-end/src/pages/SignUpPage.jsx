@@ -1,16 +1,19 @@
+import { authRequest } from '../api/auth.js'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './SignUpPage.css'
 
 function SignUpPage() {
     const [error, setError] = useState('')
     const [message, setMessage] = useState('')
-    const navigate = useNavigate()
+    const [pending, setPending] = useState(false)
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault()
+        if (pending) return
 
-        const values = new FormData(event.currentTarget)
+        const form = event.currentTarget
+        const values = new FormData(form)
         const email = values.get('email').trim()
         const password = values.get('password')
         const confirmPassword = values.get('confirmPassword')
@@ -27,9 +30,16 @@ function SignUpPage() {
             setError('Passwords do not match.')
             return
         }
-        // TODO: Connect to backend
-
-        navigate('/developer')
+        setPending(true)
+        try {
+            await authRequest('register', { email, password })
+            form.reset()
+            setMessage('Account created. You can now sign in.')
+        } catch (error) {
+            setError(error.message)
+        } finally {
+            setPending(false)
+        }
     }
 
     return (
@@ -53,6 +63,8 @@ function SignUpPage() {
                         id="signup-email"
                         name="email"
                         type="email"
+                        autoComplete="email"
+                        maxLength={254}
                         placeholder="Please enter your email"
                         required
                     />
@@ -64,6 +76,9 @@ function SignUpPage() {
                         id="signup-password"
                         name="password"
                         type="password"
+                        autoComplete="new-password"
+                        maxLength={128}
+                        minLength={8}
                         placeholder="Please enter your password"
                         required
                     />
@@ -77,6 +92,9 @@ function SignUpPage() {
                         id="signup-confirm-password"
                         name="confirmPassword"
                         type="password"
+                        autoComplete="new-password"
+                        maxLength={128}
+                        minLength={8}
                         placeholder="Please confirm your password"
                         required
                     />
@@ -90,12 +108,12 @@ function SignUpPage() {
 
                 {message && (
                     <p className="signup-message" role="status">
-                        {message}
+                        {message} <Link to="/signin">Sign in</Link>
                     </p>
                 )}
 
-                <button className="signup-continue" type="submit">
-                    Continue
+                <button className="signup-continue" type="submit" disabled={pending}>
+                    {pending ? 'Please wait…' : 'Continue'}
                 </button>
 
             </form>
