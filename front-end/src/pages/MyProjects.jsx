@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
-import { getProjects } from '../mocks/projects.js'
+//import { getProjects } from '../mocks/projects.js'
 import './MyProjects.css'
 
 function MyProjects() {
   const [projects, setProjects] = useState([])
 
-  useEffect(() => {
-    getProjects().then(setProjects)
-  }, [])
+useEffect(() => {
+  fetch('/api/projects')
+    .then((response) => response.json())
+    .then(setProjects)
+}, [])
 
   return (
     <div className="projects-page">
