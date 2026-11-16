@@ -63,6 +63,10 @@ function SignInPage() {
                     />
                 </div>
 
+                <div className="forgot-password">
+                    <Link to="/forgot-password">Forgot Password?</Link>
+                </div>
+
                 {error && (
                     <p className="signin-error" role="alert">
                         {error}

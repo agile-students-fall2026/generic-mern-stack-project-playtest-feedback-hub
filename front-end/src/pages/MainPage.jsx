@@ -5,13 +5,10 @@ function MainPage() {
   return (
     <main className="welcome-page">
       <img
-      className="logo"
-      src="/logo.png"
-      alt="Playtest Feedback Hub Logo"
-    />
-
-      <h1>Welcome to the<br />
-      Playtest Feedback Hub!</h1>
+        className="logo"
+        src="/logo.png"
+        alt="Playtest Feedback Hub Logo"
+      />
 
       <div className="button-container">
         <Link to="/signin" className="sign-in">

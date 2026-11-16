@@ -23,17 +23,9 @@ body {
 
 .logo {
   width: 100%;
-  max-width: 360px;
   height: 240px;
   object-fit: contain;
-  margin-bottom: 32px;
-}
-
-.welcome-page h1 {
-  font-size: 28px;
-  line-height: 1.4;
-  max-width: 320px;
-  margin: 0 0 32px;
+  margin-bottom: 8px;
 }
 
 .button-container {
