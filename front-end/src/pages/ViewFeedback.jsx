@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
-import { getProject } from '../mocks/projects.js'
-import { getFeedback, updateFeedbackStatus } from '../mocks/feedback.js'
 import './ViewFeedback.css'
 
 const statusOptions = [
@@ -23,15 +21,32 @@ function ViewFeedback() {
   const backTo = location.state?.from ?? '/developer/feedback-history'
 
   useEffect(() => {
-    getFeedback(feedbackId).then((item) => {
-      setFeedback(item)
-      if (item) getProject(item.projectId).then(setProject)
-    })
+    fetch(`/api/feedback/${encodeURIComponent(feedbackId)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((item) => {
+        setFeedback(item)
+        if (item) {
+          fetch(`/api/projects/${encodeURIComponent(item.projectId)}`)
+            .then((res) => (res.ok ? res.json() : null))
+            .then(setProject)
+            .catch(() => setProject(null))
+        }
+      })
+      .catch(() => setFeedback(null))
   }, [feedbackId])
 
   function changeStatus(status) {
     setStatusOpen(false)
-    updateFeedbackStatus(feedback.id, status).then(setFeedback)
+    fetch(`/api/feedback/${encodeURIComponent(feedback.id)}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((item) => {
+        if (item) setFeedback(item)
+      })
+      .catch(() => {})
   }
 
   return (

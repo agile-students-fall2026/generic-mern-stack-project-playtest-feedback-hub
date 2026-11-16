@@ -1,12 +1,10 @@
 const storageKey = 'playtest-demo-feedback'
 
-export async function getGame(id = 'demo') {
-    const response = await fetch('/mock/games.json')
+export async function getGame(id) {
+    const response = await fetch(`/api/projects/${encodeURIComponent(id)}`)
+    if (response.status === 404) throw new Error('Game not found. Check your playtest link.')
     if (!response.ok) throw new Error('Unable to load game information.')
-    const games = await response.json()
-    const game = games.find(item => item.id === id)
-    if (!game) throw new Error('Game not found. Check your playtest link.')
-    return game
+    return response.json()
 }
 
 export function getFeedbackHistory() {
@@ -14,10 +12,27 @@ export function getFeedbackHistory() {
     return Array.isArray(saved) ? saved : []
 }
 
-// Sprint 1 demo adapter. Replace with a POST request during Sprint 2.
+// Sends the feedback to the project on the back-end.
 export async function submitFeedback(data) {
-    const submission = { ...data, id: crypto.randomUUID(), createdAt: new Date().toISOString() }
-    const history = getFeedbackHistory()
-    localStorage.setItem(storageKey, JSON.stringify([submission, ...history]))
+    const response = await fetch(`/api/projects/${encodeURIComponent(data.gameId)}/feedback`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            category: data.category,
+            feedback: data.feedback,
+            anonymous: data.anonymous,
+            imageUrls: data.imageUrls,
+        }),
+    })
+    const body = await response.json().catch(() => ({}))
+    if (!response.ok) throw new Error(body.error || 'Could not send your feedback. Please try again.')
+
+    // Also keep a copy in this browser so the Feedback History page works until accounts exist.
+    const submission = { ...data, id: body.id, createdAt: new Date().toISOString() }
+    try {
+        localStorage.setItem(storageKey, JSON.stringify([submission, ...getFeedbackHistory()]))
+    } catch {
+        // The feedback was already sent, so a full or blocked browser storage is not an error.
+    }
     return submission
 }

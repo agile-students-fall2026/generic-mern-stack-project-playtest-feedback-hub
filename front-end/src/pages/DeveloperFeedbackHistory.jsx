@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
-import { getProjects } from '../mocks/projects.js'
-import { getAllFeedback } from '../mocks/feedback.js'
 import './DeveloperFeedbackHistory.css'
 
 const statusFilters = [
@@ -20,10 +18,11 @@ function DeveloperFeedbackHistory() {
   const [statusFilter, setStatusFilter] = useState(null)
 
   useEffect(() => {
-    Promise.all([getProjects(), getAllFeedback()]).then(([projects, items]) => {
-      const gameNames = Object.fromEntries(projects.map((project) => [project.id, project.name]))
-      setFeedback(items.map((item) => ({ ...item, gameName: gameNames[item.projectId] })))
-    })
+    // The back-end already adds each project's name as gameName.
+    fetch('/api/feedback')
+      .then((res) => (res.ok ? res.json() : []))
+      .then(setFeedback)
+      .catch(() => setFeedback([]))
   }, [])
 
   const shownFeedback = statusFilter === null

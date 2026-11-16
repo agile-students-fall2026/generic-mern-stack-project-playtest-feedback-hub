@@ -39,7 +39,8 @@ function ScanPage() {
           </p>
 
           {error && <p role="alert">{error}</p>}
-          <button className="scan-button" type="button" onClick={() => openPlaytest('demo')}>
+          {/* Opens mock project 1 until camera QR scanning is added. */}
+          <button className="scan-button" type="button" onClick={() => openPlaytest('1')}>
             Scan
           </button>
         </section>

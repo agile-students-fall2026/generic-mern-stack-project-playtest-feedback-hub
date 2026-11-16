@@ -7,7 +7,7 @@ import './ptFeedBackPage.css'
 
 function FeedBackPage() {
     const [params] = useSearchParams()
-    const gameId = params.get('game') || 'demo'
+    const gameId = params.get('game')
     const [game, setGame] = useState(null)
     const [error, setError] = useState('')
     const [files, setFiles] = useState([])
@@ -69,8 +69,8 @@ function FeedBackPage() {
                 imageUrls: urls,
             })
             navigate('/feedback/success')
-        } catch {
-            setError('Could not save this demo in your browser. Please try again.')
+        } catch (err) {
+            setError(err.message)
         } finally {
             setBusy(false)
         }

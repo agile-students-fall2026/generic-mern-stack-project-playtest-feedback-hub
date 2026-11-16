@@ -50,9 +50,9 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite, normally http://localhost:5173. No back end, database, or credentials are needed for this initial front-end workspace.
+Open the local URL printed by Vite, normally http://localhost:5173.
 
-The back end uses Express.js. In a second terminal, run:
+The front end gets its data from the Express.js back end, so start it too. In a second terminal, run:
 
 ```sh
 cd back-end
@@ -60,7 +60,7 @@ npm install
 npm run dev
 ```
 
-The server runs at http://localhost:3000. Check it with http://localhost:3000/api/health.
+The server runs at http://localhost:3000. Check it with http://localhost:3000/api/health. Vite forwards every `/api` request from the front end to this server. No database or credentials are needed yet.
 
 ## Building and Testing
 
