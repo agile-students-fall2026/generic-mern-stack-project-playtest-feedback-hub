@@ -17,11 +17,11 @@ router.post('/projects',(req,res)=>{
     }
 
     const project = {
-        id: String(Data.now()),
+        id: String(Date.now()),
         name: name.trim(),
         developer: developer.trim(),
         description: description.trim(),
-        submitted: new Data().toLocaleDateString('en-US'),
+        submitted: new Date().toLocaleDateString('en-US'),
         image,
     }
     projects.push(project)
