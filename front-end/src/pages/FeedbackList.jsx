@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
-import { getProject } from '../mocks/projects.js'
-import { getProjectFeedback } from '../mocks/feedback.js'
 import './FeedbackList.css'
 
 const statusFilters = [
@@ -22,8 +20,14 @@ function FeedbackList() {
   const [statusFilter, setStatusFilter] = useState(null)
 
   useEffect(() => {
-    getProject(projectId).then(setProject)
-    getProjectFeedback(projectId).then(setFeedback)
+    fetch(`/api/projects/${encodeURIComponent(projectId)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then(setProject)
+      .catch(() => setProject(null))
+    fetch(`/api/projects/${encodeURIComponent(projectId)}/feedback`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then(setFeedback)
+      .catch(() => setFeedback([]))
   }, [projectId])
 
   const shownFeedback = statusFilter === null
