@@ -1,5 +1,6 @@
 import express from 'express'
 import feedbackRouter from './routes/feedback.js'
+import projectsRouter from './routes/projects.js'
 
 const app = express()
 
@@ -10,5 +11,6 @@ app.get('/api/health', (req, res) => {
 })
 
 app.use('/api', feedbackRouter)
+app.use('/api', projectsRouter)
 
 export default app

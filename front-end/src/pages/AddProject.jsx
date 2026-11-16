@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
-import { addProject } from '../mocks/projects.js'
 import './AddProject.css'
 
 function AddProject() {
@@ -12,21 +11,30 @@ function AddProject() {
   const [description, setDescription] = useState('')
   const [error, setError] = useState('')
 
-  function handleSubmit(event) {
+  function handleSubmit(event) 
+  {
     event.preventDefault()
     if (name.trim() === '' || developer.trim() === '') {
       setError('Game Name and Developer are required.')
       return
     }
-    const iconSeed = encodeURIComponent(name.trim().toLowerCase().replace(/\s+/g, '-'))
-    addProject({
+   const iconSeed = encodeURIComponent(name.trim().toLowerCase().replace(/\s+/g, '-'))
+   fetch('/api/projects', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
       name: name.trim(),
       developer: developer.trim(),
       description: description.trim(),
       image: `https://picsum.photos/seed/${iconSeed}/88/88`,
-    }).then(() => {
-      navigate('/projects')
-    })
+    }),
+  })
+  .then(async (response) => {
+    const body = await response.json()
+    if (!response.ok) throw new Error(body.error || 'Could not add project.')
+    navigate('/projects')
+  })
+  .catch((err) => setError(err.message))
   }
 
   return (
