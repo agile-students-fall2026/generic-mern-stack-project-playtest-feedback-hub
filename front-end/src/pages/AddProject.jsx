@@ -10,6 +10,7 @@ function AddProject() {
   const [developer, setDeveloper] = useState('')
   const [description, setDescription] = useState('')
   const [error, setError] = useState('')
+  const [visbility, setVisibility] = useState('public')
 
   function handleSubmit(event) 
   {
@@ -26,6 +27,7 @@ function AddProject() {
       name: name.trim(),
       developer: developer.trim(),
       description: description.trim(),
+      visibility,
       image: `https://picsum.photos/seed/${iconSeed}/88/88`,
     }),
   })
@@ -73,6 +75,13 @@ function AddProject() {
               onChange={(event) => setDescription(event.target.value)}
               placeholder="Write a short description about your game..."
             />
+          </label>
+          <label>
+            Visibility
+            <select value={visibility} onChange={(event) => setVisibility(event.target.value)}>
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+            </select>
           </label>
           {error !== '' && <p className="add-error">{error}</p>}
           <button type="submit" className="add-submit">Add</button>

@@ -6,6 +6,7 @@ const projects = [
     developer: 'Avery Lin',
     submitted: '01/01/2001',
     image: 'https://picsum.photos/seed/harbor-quest/88/88',
+    visibility: 'public',
   },
   {
     id: '2',
@@ -13,6 +14,7 @@ const projects = [
     developer: 'Noah Park',
     submitted: '02/14/2001',
     image: 'https://picsum.photos/seed/paper-planet/88/88',
+    visibility: 'public',
   },
   {
     id: '3',
@@ -20,6 +22,7 @@ const projects = [
     developer: 'Mina Cho',
     submitted: '03/03/2001',
     image: 'https://picsum.photos/seed/night-market/88/88',
+    visibility: 'public',
   },
   {
     id: '4',
@@ -27,6 +30,7 @@ const projects = [
     developer: 'Leo Chen',
     submitted: '04/20/2001',
     image: 'https://picsum.photos/seed/glass-garden/88/88',
+    visibility: 'public',
   },
 ]
 
