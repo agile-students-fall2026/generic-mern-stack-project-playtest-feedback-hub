@@ -8,12 +8,18 @@ router.get('/projects',(req,res)=>{
 })
 
 router.post('/projects',(req,res)=>{
-    const {name, developer, description = '', image = ''} = req.body ?? {}
+    const {name, developer, description = '', image = '', visibility = 'public'} = req.body ?? {}
     if(typeof name != 'string' ||!name.trim()){
         return res.status(400).json({errror: 'Game name is required'})
     }
     if(typeof developer != 'string' ||!developer.trim()){
         return res.status(400).json({errror: 'Developer name is required'})
+    }
+    if (typeof description != 'string'){
+        return res.status(400).json({error: 'Description must be a string'})
+    }
+    if(!['public', 'private'].includes(visibility)){
+        return res.status(400).json({error: 'Visibility must be either public or private'})
     }
 
     const project = {
@@ -23,6 +29,7 @@ router.post('/projects',(req,res)=>{
         description: description.trim(),
         submitted: new Date().toLocaleDateString('en-US'),
         image,
+        visibility,
     }
     projects.push(project)
     res.status(201).json(project)
