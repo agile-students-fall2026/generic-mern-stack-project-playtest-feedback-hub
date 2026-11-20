@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { getGame } from './services/feedbackApi.js'
 import Header from './components/Header.jsx'
@@ -8,7 +8,15 @@ import './ptScanPage.css'
 function ScanPage() {
     const [error, setError] = useState('')
     const navigate = useNavigate()
-
+    const videoRef = useRef(null)
+    const scanTimer = useRef(0)
+    useEffect(() => {
+      return () => {
+        window.clearInterval(scanTimer.current)
+        const stream = videoRef.current?.srcObject
+        if (stream) stream.getTracks().forEach((track) => track.stop())
+        }
+      }, [])
     async function openPlaytest(id) {
         try {
             const game = await getGame(id)
@@ -17,7 +25,42 @@ function ScanPage() {
             setError(err.message)
         }
     }
-
+    function projectIdFromCode(value) {
+      try {
+        return new URL(value).searchParams.get('game') || ''
+      } catch {
+        return value.trim()
+      }
+    }
+    async function handleScan() {
+      if (!('BarcodeDetector' in window)) {
+        setError('Use Chrome to scan a QR code.')
+        return
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment' },
+        })
+        videoRef.current.srcObject = stream
+        await videoRef.current.play()
+        const detector = new BarcodeDetector({ formats: ['qr_code'] })
+        window.clearInterval(scanTimer.current)
+        scanTimer.current = window.setInterval(async () => {
+          const codes = await detector.detect(videoRef.current)
+          if (!codes.length) return
+          window.clearInterval(scanTimer.current)
+          stream.getTracks().forEach((track) => track.stop())
+          const id = projectIdFromCode(codes[0].rawValue)
+          if (!id) {
+            setError('QR code has no project.')
+            return
+          }
+          openPlaytest(id)
+        }, 300)
+      } catch (err) {
+        setError(err.message)
+      }
+    }
     return (
     <div className="scan-page">
       <Header />
@@ -26,24 +69,19 @@ function ScanPage() {
         <Link className="scan-back" to="/playtester">
           ‹ Back
         </Link>
-
         <section className="scan-content">
           <h1 className="scan-title">Scan QR Code.</h1>
-
           <div className="scan-preview">
-            <svg viewBox="0 0 300 300" role="img" aria-label="Camera preview placeholder"><path d="M0 0 300 300M300 0 0 300" /></svg>
-          </div>
-
-          <p className="scan-description">
-            Scan a QR Code to write<br />your feedback on a project
-          </p>
-
-          {error && <p role="alert">{error}</p>}
-          {/* Opens mock project 1 until camera QR scanning is added. */}
-          <button className="scan-button" type="button" onClick={() => openPlaytest('1')}>
-            Scan
-          </button>
-        </section>
+            <video ref={videoRef} muted playsInline />
+            </div>
+            <p className="scan-description">
+              Scan a QR Code to write<br />your feedback on a project
+              </p>
+              {error && <p role="alert">{error}</p>}
+              <button className="scan-button" type="button" onClick={handleScan}>
+                Scan
+                </button>
+                </section>
       </main>
 
       <BottomNav />

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { QRCodeSVG } from 'qrcode.react'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
 //import { getProjects } from '../mocks/projects.js'
@@ -35,11 +36,10 @@ useEffect(() => {
              <p>submitted {project.submitted}</p>
            </Link>
            <Link className="project-qr" to={`/projects/${project.id}/qr`}>
-             <svg viewBox="0 0 100 100" aria-hidden="true">
-               <rect x="8" y="8" width="84" height="84" rx="14" fill="none" stroke="currentColor" strokeWidth="4" />
-               <path d="M22 22 L78 78 M78 22 L22 78" fill="none" stroke="currentColor" strokeWidth="4" />
-             </svg>
-             QR Code
+           <QRCodeSVG
+           value={`${window.location.origin}/feedback?game=${project.id}`}
+           size={64}
+           />
            </Link>
          </li>
           ))}

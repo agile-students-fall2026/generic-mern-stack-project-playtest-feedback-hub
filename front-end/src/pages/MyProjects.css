@@ -102,10 +102,11 @@
     text-decoration: none;
   }
   
-  .project-qr svg {
-    width: 34px;
-    height: 34px;
-  }
+.project-qr svg {
+  display: block;
+  width: 64px;
+  height: 64px;
+}
   
   .add-project {
     display: block;
