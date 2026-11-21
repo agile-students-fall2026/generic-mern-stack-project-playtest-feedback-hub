@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
 import './FeedbackList.css'
@@ -18,6 +18,7 @@ function FeedbackList() {
   const [feedback, setFeedback] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
   const [statusFilter, setStatusFilter] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetch(`/api/projects/${encodeURIComponent(projectId)}`)
@@ -42,7 +43,7 @@ function FeedbackList() {
     <div className="feedback-list-page">
       <Header />
       <main className="feedback-list-main">
-        <Link className="feedback-list-back" to="/projects">‹ Back</Link>
+        <Link className="feedback-list-back" onClick={() => navigate(-1)}>‹ Back</Link>
         {project === null && <p>Project not found.</p>}
         {project && (
           <>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
@@ -8,18 +8,19 @@ import './MyProjects.css'
 
 function MyProjects() {
   const [projects, setProjects] = useState([])
+  const navigate = useNavigate()
 
-useEffect(() => {
-  fetch('/api/projects')
-    .then((response) => response.json())
-    .then(setProjects)
-}, [])
+  useEffect(() => {
+    fetch('/api/projects')
+      .then((response) => response.json())
+      .then(setProjects)
+  }, [])
 
   return (
     <div className="projects-page">
       <Header />
       <main className="projects-main">
-        <Link className="projects-back" to="/developer">‹ Back</Link>
+        <Link className="projects-back" onClick={() => navigate(-1)}>‹ Back</Link>
         <h1>My Projects</h1>
         <ul className="project-list">
           {projects.map((project) => (
