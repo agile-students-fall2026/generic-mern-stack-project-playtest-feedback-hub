@@ -14,6 +14,7 @@ function PlaytesterHub() {
                     <Link className="success-link" to="/scan">Scan a QR Code</Link>
                     <Link className="success-link" to="/account">Account</Link>
                     <Link className="success-link" to="/feedback-history">Feedback History</Link>
+                    <Link className="success-link" to="/explore">Explore Projects</Link>
                     <Link className="success-link" to="/developer">Switch to Developer Mode</Link>
                 </div>
             </main>
