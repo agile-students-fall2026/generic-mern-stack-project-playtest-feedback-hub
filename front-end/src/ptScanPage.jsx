@@ -66,7 +66,7 @@ function ScanPage() {
       <Header />
 
       <main className="scan-main">
-        <Link className="scan-back" to="/playtester">
+        <Link className="scan-back" onClick={() => navigate(-1)}>
           ‹ Back
         </Link>
         <section className="scan-content">
