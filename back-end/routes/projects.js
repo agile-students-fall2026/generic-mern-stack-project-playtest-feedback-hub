@@ -7,6 +7,33 @@ router.get('/projects',(req,res)=>{
     res.json(projects)
 })
 
+router.get('/projects/public',(req,res) => {
+    const { search = '', sort = 'newest' } = req.query
+
+    let pubicProjects = projects.filter(
+        (project) => project.visibility != 'private'
+    )
+
+    if (typeof search === 'string' && search.trim()) {
+        const searchTerm = search.trim().toLowerCase()
+
+        publicProjects = publicProjects.filter((project) =>
+            project.name.toLoerCase().includes(searchTerm) ||
+            project.developer.toLowerCase().includes(searchTerm)
+        )
+    }
+
+    if (sort === 'alphabetical') {
+        publicProjects.sort((a, b) => a.name.localeCompare(b.name))
+    } else if (sort === 'oldest') {
+        publicProjects.sort((a, b) => new Date(a.submitted) - new Date(b.submitted))
+    } else {
+        publicProjects.sort((a, b) => new Date(b.submitted) - new Date(a.submitted))
+    }
+
+    res.json(publicProjects)
+})
+
 router.post('/projects',(req,res)=>{
     const {name, developer, description = '', image = '', visibility = 'public'} = req.body ?? {}
     if(typeof name != 'string' ||!name.trim()){

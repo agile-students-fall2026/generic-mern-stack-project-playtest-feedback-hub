@@ -1,0 +1,154 @@
+.explore-page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 402px;
+    min-height: 100dvh;
+    margin: 0 auto;
+    background: #fff;
+    color: #000;
+    font-family: Arial, sans-serif;
+}
+
+.explore-main {
+    flex: 1;
+    box-sizing: border-box;
+    padding: 16px 20px 60px;
+}
+
+.explore-back {
+    display: inline-block;
+    margin-bottom: 24px;
+    text-decoration: none;
+    color: inherit;
+    text-align: left;
+}
+
+.explore-heading {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.explore-heading h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.explore-heading p {
+    font-size: 15px;
+    font-weight: 200;
+}
+
+.explore-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.explore-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    width: 50px;
+}
+
+.explore-sort {
+    display: flex;
+}
+
+.explore-count {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.explore-project-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.explore-project-card {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+}
+
+.explore-project-image {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+}
+
+.explore-project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.explore-placeholder {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #eee;
+    font-size: 40px;
+}
+
+.explore-project-info {
+    flex: 1;
+}
+
+.explore-project-info h2 {
+    font-size: 18px;
+    margin: 0 0 8px;
+}
+
+.explore-developer {
+    margin: 0 0 10px;
+    opacity: 0.7;
+}
+
+.explore-description {
+    margin-bottom: 12px;
+    overflow-wrap: anywhere;
+}
+
+.explore-submitted {
+    font-size: 13px;
+    opacity: 0.6;
+}
+
+.explore-view-project {
+    display: inline-block;
+    margin-top: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.explore-message,
+.explore-error,
+.explore-empty {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.explore-empty h2 {
+    margin-bottom: 10px;
+}
+
+.explore-error {
+    color: #c00;
+}
