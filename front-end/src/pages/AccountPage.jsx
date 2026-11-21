@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import '../ptFeedBackPage.css'
 import './AccountPage.css'
 
 function AccountPage() {
     const location = useLocation()
     const [message, setMessage] = useState('')
+    const navigate = useNavigate()
 
     function handleResetPassword() {
         setMessage('Password reset is not connected yet.')
@@ -18,7 +19,7 @@ function AccountPage() {
             <Header />
 
             <main className="feedback-page account-page">
-                <Link className="account-back" to="/"> ‹ Back</Link>
+                <Link className="account-back" onClick={() => navigate(-1)}> ‹ Back</Link>
 
                 <div className="account-profile">
                     <div className="account-avatar">

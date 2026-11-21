@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
 import { getFeedbackHistory } from '../services/feedbackApi.js'
@@ -7,6 +7,7 @@ import '../ptFeedBackPage.css'
 import './FeedbackHistory.css'
 
 function FeedbackHistory() {
+    const navigate = useNavigate()
     const [history] = useState(() => {
         try { 
             return getFeedbackHistory() 
@@ -20,7 +21,7 @@ function FeedbackHistory() {
             <Header />
 
             <main className="feedback-page feedback-history-page">
-                <Link className="history-back" to="/">‹ Back</Link>
+                <Link className="history-back" onClick={() => navigate(-1)}>‹ Back</Link>
                 
                 <h1 className="history-title">Feedback Log</h1>
 

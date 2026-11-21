@@ -43,7 +43,7 @@ function AddProject() {
     <div className="add-page">
       <Header />
       <main className="add-main">
-        <Link className="add-back" to="/projects">‹ Back</Link>
+        <Link className="add-back" onClick={() => navigate(-1)}>‹ Back</Link>
         <form onSubmit={handleSubmit}>
         <button type="button" className="change-icon">
   <svg viewBox="0 0 100 100" aria-hidden="true">

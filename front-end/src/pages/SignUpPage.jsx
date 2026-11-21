@@ -1,12 +1,13 @@
 import { authRequest } from '../api/auth.js'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './SignUpPage.css'
 
 function SignUpPage() {
     const [error, setError] = useState('')
     const [message, setMessage] = useState('')
     const [pending, setPending] = useState(false)
+    const navigate = useNavigate()
 
     async function handleSubmit(event) {
         event.preventDefault()
@@ -45,7 +46,7 @@ function SignUpPage() {
     return (
         <main className="signup-page">
 
-            <Link className="auth-back" to="/">
+            <Link className="auth-back" onClick={() => navigate(-1)}>
                 ‹ Back
             </Link>
 

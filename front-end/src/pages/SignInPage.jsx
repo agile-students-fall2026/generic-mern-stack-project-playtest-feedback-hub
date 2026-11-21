@@ -29,7 +29,7 @@ function SignInPage() {
     return (
         <main className="signin-page">
             
-            <Link className="auth-back" to="/">
+            <Link className="auth-back" onClick={() => navigate(-1)}>
                 ‹ Back
             </Link>
 

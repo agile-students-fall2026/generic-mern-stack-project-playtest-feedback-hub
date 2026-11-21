@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
@@ -8,6 +8,7 @@ import './QrDisplay.css'
 function QrDisplay() {
   const { projectId } = useParams()
   const [project, setProject] = useState(undefined)
+  const navigate = useNavigate()
   useEffect(() => {
     fetch(`/api/projects/${projectId}`)
     .then((response) => {
@@ -21,7 +22,7 @@ function QrDisplay() {
     <div className="qr-page">
       <Header />
       <main className="qr-main">
-        <Link className="qr-back-link" to="/projects">‹ Back</Link>
+        <Link className="qr-back-link" onClick={() => navigate(-1)}>‹ Back</Link>
         {project === null && <p>Project not found.</p>}
         {project && (
           <>

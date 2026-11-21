@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import BottomNav from '../components/BottomNav.jsx'
 import './DeveloperFeedbackHistory.css'
@@ -16,6 +16,7 @@ function DeveloperFeedbackHistory() {
   const [feedback, setFeedback] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
   const [statusFilter, setStatusFilter] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     // The back-end already adds each project's name as gameName.
@@ -37,7 +38,7 @@ function DeveloperFeedbackHistory() {
     <div className="dev-history-page">
       <Header />
       <main className="dev-history-main">
-        <Link className="dev-history-back" to="/developer">‹ Back</Link>
+        <Link className="dev-history-back" onClick={() => navigate(-1)}>‹ Back</Link>
         <div className="dev-history-heading">
           <h1>Feedback History</h1>
           <button
