@@ -1,29 +1,36 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { authRequest } from '../api/auth.js'
 import './SignInPage.css'
 
 function SignInPage() {
     const [error, setError] = useState('')
-    const [message, setMessage] = useState('')
+    const [pending, setPending] = useState(false)
     const navigate = useNavigate()
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault()
+        if (pending) return
 
         const values = new FormData(event.currentTarget)
         const email = values.get('email').trim()
         const password = values.get('password')
 
         setError('')
-        setMessage('')
 
         if (!email || !password) {
             setError('Please fill in the required fields.')
             return
         }
-        // TODO: Connect to backend
-
-        navigate('/developer')
+        setPending(true)
+        try {
+            await authRequest('login', { email, password })
+            navigate('/developer', { replace: true })
+        } catch (error) {
+            setError(error.message)
+        } finally {
+            setPending(false)
+        }
     }
 
     return (
@@ -47,6 +54,8 @@ function SignInPage() {
                         id="signin-email"
                         name="email"
                         type="email"
+                        autoComplete="email"
+                        maxLength={254}
                         placeholder="Please enter your email"
                         required
                     />
@@ -58,6 +67,8 @@ function SignInPage() {
                         id="signin-password"
                         name="password"
                         type="password"
+                        autoComplete="current-password"
+                        maxLength={128}
                         placeholder="Please enter your password"
                         required
                     />
@@ -73,14 +84,8 @@ function SignInPage() {
                     </p>
                 )}
 
-                {message && (
-                    <p className="signin-message" role="status">
-                        {message}
-                    </p>
-                )}
-
-                <button className="signin-continue" type="submit">
-                    Continue
+                <button className="signin-continue" type="submit" disabled={pending}>
+                    {pending ? 'Signing in…' : 'Continue'}
                 </button>
 
             </form>
