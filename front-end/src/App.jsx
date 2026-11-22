@@ -1,6 +1,8 @@
 import MainPage from './pages/MainPage.jsx';
 import SignInPage from './pages/SignInPage.jsx'
 import SignUpPage from './pages/SignUpPage.jsx'
+import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx'
+import ResetPasswordPage from './pages/ResetPasswordPage.jsx'
 import ScanPage from './ptScanPage.jsx'
 import FeedBackPage from './ptFeedBackPage.jsx'
 import { Routes, Route } from 'react-router-dom'
@@ -22,6 +24,8 @@ function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/signin" element={<SignInPage />} />
             <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/signin/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/signin/reset-password" element={<ResetPasswordPage />} />
             <Route path="/playtester" element={<PlaytesterHub />} />
             <Route path="/scan" element={<ScanPage />} />
             <Route path="/feedback" element={<FeedBackPage />} />
