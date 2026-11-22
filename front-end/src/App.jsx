@@ -1,4 +1,5 @@
 import MainPage from './pages/MainPage.jsx';
+import SessionHome from './pages/SessionHome.jsx'
 import SignInPage from './pages/SignInPage.jsx'
 import SignUpPage from './pages/SignUpPage.jsx'
 import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx'
@@ -23,6 +24,7 @@ function App() {
     return (
         <Routes>
             <Route path="/" element={<MainPage />} />
+            <Route path="/home" element={<SessionHome />} />
             <Route path="/signin" element={<SignInPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/signin/forgot-password" element={<ForgotPasswordPage />} />
