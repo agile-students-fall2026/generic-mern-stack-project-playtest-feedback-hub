@@ -13,7 +13,7 @@ function BottomNav() {
                 </g>
               </svg>
             </span>
-            <Link to="/" aria-label="Home">
+            <Link to="/home" aria-label="Home">
               <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
                 <path d="m2 14 14-12 7 6V4h5v8l3 2-3 4-2-2v14h-8V20h-5v10H6V16l-2 2z" />
               </svg>
