@@ -36,7 +36,7 @@ function SignUpPage() {
         try {
             await authRequest('register', { email, password })
             form.reset()
-            setMessage('Account created. You can now sign in.')
+            setMessage('Account created. You can now ')
         } catch (error) {
             setError(error.message)
         } finally {

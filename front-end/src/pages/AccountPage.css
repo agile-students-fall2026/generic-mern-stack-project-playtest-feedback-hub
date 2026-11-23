@@ -22,17 +22,29 @@
     flex-direction: column;
     align-items: left;
     width: 100%;
-    padding-top: 80px;
+    padding-top: 20px;
     text-align: left;
+}
+
+.account-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .account-avatar {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 120px;
     height: 120px;
-    align-items: center;
     margin-bottom: 36px;
+}
+
+.account-avatar svg {
+    width: 100%;
+    height: 100%;
 }
 
 .account-details {
@@ -55,11 +67,9 @@
 .account-email {
     overflow-wrap: anywhere;
     width: 100%;
-    padding: 16px;
-    border: 1px solid black;
-    background-color: white;
     color: black;
     font-size: 16px;
+    font-weight: bold;
 }
 
 .account-back {
@@ -81,6 +91,7 @@
 
 .reset-password-button {
     width: 100%;
+    margin-top: 20px;
     padding: 16px;
     border: none;
     background-color: black;

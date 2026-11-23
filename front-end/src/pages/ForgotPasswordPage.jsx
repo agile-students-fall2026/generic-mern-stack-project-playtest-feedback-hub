@@ -2,12 +2,15 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './ForgotPasswordPage.css'
 import './AuthPages.css'
+import { useNavigate } from 'react-router-dom'
+import { authRequest } from '../api/auth.js'
 
 function ForgotPasswordPage() {
     const [message, setMessage] = useState('')
     const [error, setError] = useState('')
+    const navigate = useNavigate()
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault()
 
         const values = new FormData(event.currentTarget)
@@ -16,13 +19,18 @@ function ForgotPasswordPage() {
         setError('')
         setMessage('')
 
-        if (!email) {
-            setError('Please enter your email address.')
-            return
-        }
+        try {
+            const response = await authRequest('forgot-password', { email })
 
-        // TODO: Connect to backend
-        setMessage('If an account exists with this email, password reset instructions will be sent.')
+            if (response.resetUrl) {
+                const url = new URL(response.resetUrl)
+                navigate(`${url.pathname}${url.search}`)
+            } else {
+                setMessage(response.message)
+            }
+        } catch (error) {
+            setError(error.message)
+        }
     }
 
     return (

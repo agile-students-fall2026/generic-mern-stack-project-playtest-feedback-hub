@@ -28,7 +28,7 @@ function App() {
             <Route path="/signin" element={<SignInPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/signin/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/signin/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/playtester" element={<PlaytesterHub />} />
             <Route path="/scan" element={<ScanPage />} />
             <Route path="/feedback" element={<FeedBackPage />} />
