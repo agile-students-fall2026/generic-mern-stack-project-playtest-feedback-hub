@@ -2,6 +2,7 @@ import { authRequest } from '../api/auth.js'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './SignUpPage.css'
+import './AuthPages.css'
 
 function SignUpPage() {
     const [error, setError] = useState('')

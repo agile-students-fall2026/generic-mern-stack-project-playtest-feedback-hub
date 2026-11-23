@@ -1,4 +1,5 @@
 import './MainPage.css';
+import './AuthPages.css'
 import { Link } from 'react-router-dom'
 
 function MainPage() {
