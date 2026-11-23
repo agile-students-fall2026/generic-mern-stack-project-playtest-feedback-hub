@@ -33,38 +33,73 @@ function AccountPage() {
     }
 
     return (
-        <div className="feedback-shell">
-            <Header />
+        <div className="account-page">
 
-            <main className="feedback-page account-page">
-                <Link className="account-back" onClick={() => navigate(-1)}> ‹ Back</Link>
+            <button
+                className="account-back"
+                type="button"
+                onClick={() => navigate(-1)}
+            >
+                ‹ Back
+            </button>
 
-                {error && <p role="alert">{error}</p>}
-                {!account && !error && <p role="status">Loading your account…</p>}
+            <main className="account-main">
+
+                <h1 className="account-title">Account</h1>
+
+                {error && (
+                    <p className="account-error" role="alert">
+                        {error}
+                    </p>
+                )}
+
+                {!account && !error && (
+                    <p className="account-loading" role="status">
+                        Loading your account…
+                    </p>
+                )}
+
                 {account && (
                     <div className="account-profile">
+
                         <div className="account-avatar">
-                            <svg viewBox="0 0 100 100" role="img" aria-label="Default profile picture">
+                            <svg
+                                viewBox="0 0 100 100"
+                                role="img"
+                                aria-label="Default profile picture"
+                            >
                                 <circle cx="50" cy="50" r="45" fill="#ccc" />
                             </svg>
                         </div>
 
                         <div className="account-details">
+
                             <div className="account-detail-row">
-                                <span>Email</span>
-                                <span className="account-email">{account.email}</span>
+                                <span className="account-label">Email</span>
+                                <span className="account-email">
+                                    {account.email}
+                                </span>
                             </div>
 
-                            <button className="reset-password-button" onClick={handleResetPassword}>
+                            <button
+                                className="reset-password-button"
+                                type="button"
+                                onClick={handleResetPassword}
+                            >
                                 Reset Password
                             </button>
 
-                            {message && (<p className="account-message" role="status">{message}</p>)}
+                            {message && (
+                                <p className="account-message" role="status">
+                                    {message}
+                                </p>
+                            )}
+
                         </div>
                     </div>
                 )}
+
             </main>
-            <BottomNav />
         </div>
     )
 }

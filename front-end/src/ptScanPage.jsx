@@ -63,14 +63,13 @@ function ScanPage() {
     }
     return (
     <div className="scan-page">
-      <Header />
 
       <main className="scan-main">
         <Link className="scan-back" onClick={() => navigate(-1)}>
           ‹ Back
         </Link>
         <section className="scan-content">
-          <h1 className="scan-title">Scan QR Code.</h1>
+          <h1 className="scan-title">Scan QR Code</h1>
           <div className="scan-preview">
             <video ref={videoRef} muted playsInline />
             </div>
@@ -83,8 +82,6 @@ function ScanPage() {
                 </button>
                 </section>
       </main>
-
-      <BottomNav />
     </div>
     )
 }
