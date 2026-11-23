@@ -19,25 +19,12 @@ async function registerAccount() {
 }
 
 async function getResetToken(email) {
-    const originalLog = console.log
-    let resetUrl
+    const response = await request(app)
+        .post('/api/auth/forgot-password')
+        .send({ email })
+        .expect(200)
 
-    console.log = (...args) => {
-        resetUrl = args.find(
-            value =>
-                typeof value === 'string' &&
-                value.includes('/reset-password?token=')
-        )
-    }
-
-    try {
-        await request(app)
-            .post('/api/auth/forgot-password')
-            .send({ email })
-            .expect(200)
-    } finally {
-        console.log = originalLog
-    }
+    const resetUrl = response.body.resetUrl
 
     expect(resetUrl).to.be.a('string')
 
