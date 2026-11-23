@@ -1,16 +1,22 @@
-
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import './ResetPasswordPage.css'
 import './AuthPages.css'
+import { authRequest } from '../api/auth.js'
 
 function ResetPasswordPage() {
     const [error, setError] = useState('')
     const [message, setMessage] = useState('')
+    const [pending, setPending] = useState(false)
     const navigate = useNavigate()
+    const location = useLocation()
+    const resetToken = new URLSearchParams(location.search).get('token')
+    const isForgotPassword = Boolean(resetToken)
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault()
+        if (pending) return
+        const form = event.currentTarget
 
         const values = new FormData(event.currentTarget)
         const password = values.get('password')
@@ -24,23 +30,46 @@ function ResetPasswordPage() {
             return
         }
 
-        if (password !== confirmPassword) {
-            setError('Passwords do not match.')
+        if (password.length < 8 || password.length > 128) {
+            setError('Password must be between 8 and 128 characters.')
             return
         }
 
-        // TODO: Connect to backend to update password
+        setPending(true)
+        try {
+            if (isForgotPassword) {
+                await authRequest('reset-password', {
+                    token: resetToken,
+                    password
+                })
+            } else {
+                await authRequest('change-password', {
+                    password
+                })
+            }
 
-        setMessage('Your password has been reset successfully!')
+            form.reset()
 
-        // Return to Sign In after successful reset
-        // navigate('/signin')
+            setMessage(
+                isForgotPassword
+                    ? 'Success!'
+                    : 'Success!'
+            )
+
+        } catch (error) {
+            setError(error.message)
+        } finally {
+            setPending(false)
+        }
     }
 
     return (
         <main className="reset-page">
 
-            <Link className="auth-back" to="/signin">
+            <Link
+                className="auth-back"
+                to={isForgotPassword ? '/signin' : '/account'}
+            >
                 ‹ Back
             </Link>
 
@@ -85,11 +114,20 @@ function ResetPasswordPage() {
                 {message && (
                     <p className="reset-message" role="status">
                         {message}
+                        {isForgotPassword ? (
+                            <> <Link to="/signin">Sign in</Link></>
+                        ) : (
+                            <> <Link to="/account">Back to Account</Link></>
+                        )}
                     </p>
                 )}
 
-                <button className="reset-continue" type="submit">
-                    Continue
+                <button
+                    className="reset-continue"
+                    type="submit"
+                    disabled={pending}
+                >
+                    {pending ? 'Please wait…' : 'Continue'}
                 </button>
 
             </form>

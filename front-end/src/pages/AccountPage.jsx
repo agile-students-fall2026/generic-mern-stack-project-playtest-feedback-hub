@@ -29,7 +29,9 @@ function AccountPage() {
     }, [navigate])
 
     function handleResetPassword() {
-        setMessage('Password reset is not connected yet.')
+    navigate('/reset-password', {
+            state: { from: 'account' }
+        })
     }
 
     return (
