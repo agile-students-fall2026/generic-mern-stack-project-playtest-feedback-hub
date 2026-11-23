@@ -17,23 +17,22 @@ function FeedbackHistory() {
     })
 
     return (
-        <div className="feedback-shell">
-            <Header />
+        <div className="feedback-list-page">
 
-            <main className="feedback-page feedback-history-page">
-                <Link className="history-back" onClick={() => navigate(-1)}>‹ Back</Link>
+            <main className="feedback-list-main">
+                <Link className="feedback-list-back" onClick={() => navigate(-1)}>‹ Back</Link>
                 
-                <h1 className="history-title">Feedback Log</h1>
+                <h1 className="feedback-list-heading h1">Feedback Log</h1>
 
                 {history.length === 0 ? (
-                    <p className="history-empty">
+                    <p className="feedback-list-empty">
                         No feedback yet.{' '}
                         <Link to="/scan">Start a playtest.</Link>
                     </p>
                 ) : (
-                    <div className="history-list">
+                    <div className="feedback-cards">
                         {history.map(item => (
-                            <details key={item.id} className="history-item">
+                            <details key={item.id} className="feedback-card">
                                 <summary className="history-card-summary">
                                     <span className="history-game-name">
                                         {item.gameName}
@@ -61,7 +60,6 @@ function FeedbackHistory() {
                     </div>
                 )}
             </main>
-            <BottomNav />
         </div>
     )
 }

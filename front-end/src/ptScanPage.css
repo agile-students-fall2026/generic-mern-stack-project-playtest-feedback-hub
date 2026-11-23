@@ -1,11 +1,118 @@
-body { margin: 0; }
-.scan-page { width: 100%; max-width: 402px; min-height: 100dvh; margin: 0 auto; display: flex; flex-direction: column; font-family: Arial, sans-serif; color: #000; background: #fff; }
-.scan-main { flex: 1; padding: 6px 8px 40px; }
-.scan-back { color: #000; font-size: 11px; text-decoration: none; }
-.scan-content { margin: 66px auto 0; text-align: center; }
-.scan-title { margin: 0 0 20px; font-size: 20px; line-height: 24px; font-weight: 400; }
-.scan-preview { width: min(300px, 100%); aspect-ratio: 1; box-sizing: border-box; margin: 0 auto; border: 2px solid #000; border-radius: 30px; overflow: hidden; }
-.scan-preview svg { display: block; width: 100%; height: 100%; fill: none; stroke: #000; stroke-width: 2; }
-.scan-description { margin: 28px 0 30px; font-size: 16px; line-height: 19px; }
-.scan-button { width: 131px; min-height: 41px; padding: 6px; border: 0; border-radius: 0; background: #d9d9d9; color: #000; font: 20px Arial, sans-serif; cursor: pointer; }
-.scan-button:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.scan-page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 402px;
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: white;
+    color: black;
+    font-family: Arial, sans-serif;
+}
+
+/* Back button */
+.scan-back {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #333333;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.scan-back:hover {
+    text-decoration: underline;
+}
+
+.scan-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+    padding-top: 80px;
+}
+
+.scan-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+}
+
+.scan-title {
+    margin: 0 0 32px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.scan-preview {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    border: 2px solid black;
+    overflow: hidden;
+}
+
+.scan-preview video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.scan-description {
+    margin: 32px 0;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.scan-button {
+    width: 100%;
+    max-width: 320px;
+    min-height: 55px;
+    padding: 16px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.scan-button:hover {
+    background-color: #333333;
+}
+
+.scan-button:focus-visible {
+    outline: 2px solid black;
+    outline-offset: 3px;
+}
+
+.scan-error {
+    margin: 0 0 16px;
+    color: red;
+    font-size: 14px;
+}
