@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './ForgotPasswordPage.css'
+import './AuthPages.css'
 
 function ForgotPasswordPage() {
     const [message, setMessage] = useState('')

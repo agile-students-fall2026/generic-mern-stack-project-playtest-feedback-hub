@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { authRequest } from '../api/auth.js'
 import './SignInPage.css'
+import './AuthPages.css'
 
 function SignInPage() {
     const [error, setError] = useState('')
@@ -36,7 +37,7 @@ function SignInPage() {
     return (
         <main className="signin-page">
             
-            <Link className="auth-back" onClick={() => navigate(-1)}>
+            <Link className="auth-back" to="/">
                 ‹ Back
             </Link>
 

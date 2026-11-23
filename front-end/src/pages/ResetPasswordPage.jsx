@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './ResetPasswordPage.css'
+import './AuthPages.css'
 
 function ResetPasswordPage() {
     const [error, setError] = useState('')

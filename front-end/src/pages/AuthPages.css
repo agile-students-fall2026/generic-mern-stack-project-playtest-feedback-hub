@@ -1,0 +1,29 @@
+.welcome-page,
+.signin-page,
+.signup-page,
+.forgot-page,
+.reset-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 100px 24px 32px;
+    min-height: 100vh;
+    min-height: 100svh;
+    text-align: center;
+    background-color: white;
+    color: black;
+    font-family: Arial, sans-serif;
+}
+
+.logo,
+.signin-logo,
+.signup-logo,
+.forgot-logo,
+.reset-logo {
+    width: 100%;
+    max-width: 360px;
+    height: 240px;
+    object-fit: contain;
+    margin-bottom: 32px;
+}
