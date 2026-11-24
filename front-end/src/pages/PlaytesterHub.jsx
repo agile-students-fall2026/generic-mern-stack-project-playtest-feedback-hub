@@ -6,6 +6,7 @@ import './HubPages.css'
 function PlaytesterHub() {
     return (
         <div className="playtester-page playtester-hub">
+            <Header />
             <main className="playtester-main">
                 <p className="playtester-welcome">Welcome to the</p>
                 <h1 className="playtester-title">Playtester Hub</h1>

@@ -18,7 +18,7 @@ function FeedbackHistory() {
 
     return (
         <div className="feedback-list-page">
-
+            <Header />
             <main className="feedback-list-main">
                 <Link className="feedback-list-back" onClick={() => navigate(-1)}>‹ Back</Link>
                 

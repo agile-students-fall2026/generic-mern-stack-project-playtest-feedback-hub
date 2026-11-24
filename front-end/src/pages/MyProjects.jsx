@@ -20,7 +20,7 @@ function MyProjects() {
     <div className="projects-page">
       <Header />
       <main className="projects-main">
-        <Link className="projects-back" onClick={() => navigate(-1)}>‹ Back</Link>
+        
         <h1>My Projects</h1>
         <ul className="project-list">
           {projects.map((project) => (
@@ -47,7 +47,7 @@ function MyProjects() {
         </ul>
         <Link className="add-project" to="/projects/new">Add Project</Link>
       </main>
-      <BottomNav />
+      
     </div>
   )
 }

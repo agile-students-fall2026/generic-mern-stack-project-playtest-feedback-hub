@@ -158,7 +158,6 @@ function FeedBackPage() {
                     <button className="feedback-button feedback-submit" type="submit" disabled={busy || !game}>{busy ? 'Submitting…' : 'Submit'}</button>
                 </form>
             </main>
-            <BottomNav />
         </div>
     )
 }

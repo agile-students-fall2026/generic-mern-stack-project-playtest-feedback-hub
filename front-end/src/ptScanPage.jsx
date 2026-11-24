@@ -63,7 +63,7 @@ function ScanPage() {
     }
     return (
     <div className="scan-page">
-
+      <Header />
       <main className="scan-main">
         <Link className="scan-back" onClick={() => navigate(-1)}>
           ‹ Back
@@ -76,10 +76,12 @@ function ScanPage() {
             <p className="scan-description">
               Scan a QR Code to write<br />your feedback on a project
               </p>
-              {error && <p role="alert">{error}</p>}
+              <div className="scan-error-container">
+                  {error && <p className="scan-error" role="alert">{error}</p>}
+              </div>
               <button className="scan-button" type="button" onClick={handleScan}>
-                Scan
-                </button>
+                  Scan
+              </button>
                 </section>
       </main>
     </div>

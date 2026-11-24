@@ -44,7 +44,6 @@ function Explore() {
         <div className="explore-page">
             <Header />
             <main className="explore-main">
-                <Link className="explore-back" onClick={() => navigate(-1)}>‹ Back</Link>
                 
                 <div className="explore-heading">
                     <h1>Explore</h1>
@@ -111,7 +110,7 @@ function Explore() {
                     )}
                 </div>
             </main>
-            <BottomNav />
+            
         </div>
     )
 }

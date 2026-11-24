@@ -75,7 +75,7 @@ function ViewFeedback() {
       <Header />
       <main className="view-feedback-main">
         <div className="view-feedback-top">
-          <Link className="view-feedback-back" to={backTo}>‹ Back</Link>
+          
           {feedback && (
             <div className="view-feedback-status-picker">
               <button
@@ -158,7 +158,7 @@ function ViewFeedback() {
           </>
         )}
       </main>
-      <BottomNav />
+      
     </div>
   )
 }

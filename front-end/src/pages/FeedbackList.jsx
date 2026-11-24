@@ -63,7 +63,7 @@ function FeedbackList() {
     <div className="feedback-list-page">
       <Header />
       <main className="feedback-list-main">
-        <Link className="feedback-list-back" onClick={() => navigate(-1)}>‹ Back</Link>
+        
         {loading && <p className="feedback-list-empty">Loading feedback…</p>}
         {loadError && <p className="feedback-list-empty" role="alert">{loadError}</p>}
         {!loading && !loadError && project === null && <p>Project not found.</p>}
@@ -128,7 +128,7 @@ function FeedbackList() {
           </>
         )}
       </main>
-      <BottomNav />
+      
     </div>
   )
 }

@@ -6,6 +6,7 @@ import './HubPages.css'
 function DeveloperHub() {
   return (
     <div className="developer-page">
+      <Header />
       <main className="developer-main">
         <p className="developer-welcome">Welcome to the</p>
         <h1 className="developer-title">Developer Hub</h1>

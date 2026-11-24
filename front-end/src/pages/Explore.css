@@ -1,3 +1,8 @@
+
+* {
+    box-sizing: border-box;
+}
+
 .explore-page {
     display: flex;
     flex-direction: column;
@@ -13,33 +18,33 @@
 
 .explore-main {
     flex: 1;
-    box-sizing: border-box;
-    padding: 16px 24px 60px;
+    width: 100%;
+    padding: 80px 24px 60px;
 }
 
 .explore-back {
     display: inline-block;
     margin-bottom: 24px;
+    color: #000;
+    font-size: 14px;
     text-decoration: none;
-    color: inherit;
-    text-align: left;
 }
 
 .explore-heading {
-    font-size: 32px;
-    font-weight: 600;
+    margin-top: 20px;
     margin-bottom: 24px;
 }
 
 .explore-heading h1 {
+    margin: 0 0 4px;
     font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 2px;
+    font-weight: 700;
 }
 
 .explore-heading p {
+    margin: 0;
     font-size: 15px;
-    font-weight: 200;
+    font-weight: 400;
 }
 
 .explore-controls {
@@ -55,7 +60,7 @@
     align-items: center;
     gap: 10px;
     flex: 1;
-    width: 50px;
+    min-width: 0;
 }
 
 .explore-sort {
@@ -64,86 +69,91 @@
 
 .explore-count {
     font-size: 14px;
-    opacity: 0.7;
+    color: #555;
 }
 
 .explore-project-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .explore-project-card {
     display: flex;
-    gap: 16px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    border: 2px solid #000;
 }
 
 .explore-project-image {
     flex-shrink: 0;
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    height: 120px;
 }
 
 .explore-project-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 8px;
 }
 
 .explore-placeholder {
-    width: 80px;
-    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
+    width: 100%;
+    height: 120px;
     background: #eee;
     font-size: 40px;
 }
 
 .explore-project-info {
     flex: 1;
+    min-width: 0;
 }
 
 .explore-project-info h2 {
-    font-size: 18px;
     margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
 }
 
 .explore-developer {
     margin: 0 0 10px;
-    opacity: 0.7;
+    color: #555;
+    font-size: 13px;
 }
 
 .explore-description {
-    margin-bottom: 12px;
+    margin: 0 0 12px;
+    font-size: 14px;
     overflow-wrap: anywhere;
 }
 
 .explore-submitted {
-    font-size: 13px;
-    opacity: 0.6;
+    font-size: 12px;
+    color: #555;
 }
 
 .explore-view-project {
     display: inline-block;
     margin-top: 8px;
-    text-decoration: none;
-    font-weight: 600;
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: underline;
 }
 
 .explore-message,
 .explore-error,
 .explore-empty {
-    text-align: center;
     padding: 40px 20px;
+    text-align: center;
 }
 
 .explore-empty h2 {
