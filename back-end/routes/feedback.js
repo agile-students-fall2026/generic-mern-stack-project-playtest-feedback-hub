@@ -7,12 +7,16 @@ const router = express.Router()
 
 const categories = ['Bugs', 'Gameplay', 'Art', 'Audio', 'Other']
 const statuses = ['Complete', 'Incomplete', 'WIP', 'Resolved', 'Assigned']
+const maxTextLength = 2000
+const maxImageUrls = 5
+const maxUrlLength = 2048
 
 function findProject(id) {
   return projects.find((project) => project.id === id)
 }
 
 function isWebUrl(value) {
+  if (typeof value !== 'string' || value.length > maxUrlLength) return false
   try {
     return ['http:', 'https:'].includes(new URL(value).protocol)
   } catch {
@@ -42,8 +46,14 @@ router.post('/projects/:projectId/feedback', (req, res) => {
   const label = categories.find((name) => name.toLowerCase() === String(category).toLowerCase())
   if (!label) return res.status(400).json({ error: 'Choose a valid category.' })
   if (typeof text !== 'string' || !text.trim()) return res.status(400).json({ error: 'Feedback text is required.' })
+  if (text.trim().length > maxTextLength) {
+    return res.status(400).json({ error: `Feedback must be ${maxTextLength} characters or fewer.` })
+  }
   if (!Array.isArray(imageUrls) || !imageUrls.every(isWebUrl)) {
     return res.status(400).json({ error: 'Image links must be http or https URLs.' })
+  }
+  if (imageUrls.length > maxImageUrls) {
+    return res.status(400).json({ error: `You can add up to ${maxImageUrls} image links.` })
   }
 
   const item = {

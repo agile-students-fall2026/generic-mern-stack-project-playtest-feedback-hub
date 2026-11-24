@@ -13,7 +13,7 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' })
 })
 
-app.use('/api', feedbackRouter)
 app.use('/api', projectsRouter)
+app.use('/api', feedbackRouter)
 
 export default app

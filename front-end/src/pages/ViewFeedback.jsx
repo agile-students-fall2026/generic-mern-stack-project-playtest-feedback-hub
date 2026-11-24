@@ -12,41 +12,62 @@ const statusOptions = [
   { label: 'Assigned', status: 'Assigned' },
 ]
 
+async function readJson(res) {
+  if (res.status === 404) return null
+  if (!res.ok) throw new Error(`Request failed with status ${res.status}`)
+  return res.json()
+}
+
 function ViewFeedback() {
   const { feedbackId } = useParams()
   const location = useLocation()
   const [feedback, setFeedback] = useState(undefined)
   const [project, setProject] = useState(null)
+  const [loadError, setLoadError] = useState('')
+  const [statusError, setStatusError] = useState('')
+  const [saving, setSaving] = useState(false)
   const [statusOpen, setStatusOpen] = useState(false)
   const backTo = location.state?.from ?? '/developer/feedback-history'
 
   useEffect(() => {
+    let active = true
+    setFeedback(undefined)
+    setProject(null)
+    setLoadError('')
     fetch(`/api/feedback/${encodeURIComponent(feedbackId)}`)
-      .then((res) => (res.ok ? res.json() : null))
+      .then(readJson)
       .then((item) => {
+        if (!active) return
         setFeedback(item)
-        if (item) {
-          fetch(`/api/projects/${encodeURIComponent(item.projectId)}`)
-            .then((res) => (res.ok ? res.json() : null))
-            .then(setProject)
-            .catch(() => setProject(null))
-        }
+        if (!item) return
+        return fetch(`/api/projects/${encodeURIComponent(item.projectId)}`)
+          .then(readJson)
+          .then((projectData) => {
+            if (active) setProject(projectData)
+          })
       })
-      .catch(() => setFeedback(null))
+      .catch(() => {
+        if (active) setLoadError('Could not load this feedback. Check that the back-end is running.')
+      })
+    return () => { active = false }
   }, [feedbackId])
 
   function changeStatus(status) {
     setStatusOpen(false)
+    setStatusError('')
+    setSaving(true)
     fetch(`/api/feedback/${encodeURIComponent(feedback.id)}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((item) => {
-        if (item) setFeedback(item)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Request failed with status ${res.status}`)
+        return res.json()
       })
-      .catch(() => {})
+      .then(setFeedback)
+      .catch(() => setStatusError('Could not save the new status. Please try again.'))
+      .finally(() => setSaving(false))
   }
 
   return (
@@ -63,6 +84,7 @@ function ViewFeedback() {
                 aria-label={`Status: ${feedback.status}. Change status`}
                 aria-expanded={statusOpen}
                 aria-controls="view-feedback-status-menu"
+                disabled={saving}
                 onClick={() => setStatusOpen(!statusOpen)}
               >
                 Status: {feedback.status}
@@ -88,14 +110,17 @@ function ViewFeedback() {
             </div>
           )}
         </div>
+        {statusError && <p role="alert">{statusError}</p>}
+        {loadError && <p role="alert">{loadError}</p>}
+        {feedback === undefined && !loadError && <p>Loading feedback…</p>}
         {feedback === null && <p>Feedback not found.</p>}
-        {feedback && project && (
+        {feedback && (
           <>
             <div className="view-feedback-game">
               <div>
                 <p className="view-feedback-game-label">Playtest Feedback for</p>
-                <h1>{project.name}</h1>
-                <p className="view-feedback-game-developer">by {project.developer}</p>
+                <h1>{project?.name ?? 'Unknown project'}</h1>
+                {project && <p className="view-feedback-game-developer">by {project.developer}</p>}
               </div>
               <span className="view-feedback-icon" aria-hidden="true">
                 <svg viewBox="0 0 100 100">
@@ -114,7 +139,7 @@ function ViewFeedback() {
             ) : (
               <ul className="view-feedback-images">
                 {feedback.images.map((url, index) => (
-                  <li key={url}>
+                  <li key={`${url}-${index}`}>
                     <a href={url} target="_blank" rel="noreferrer">
                       <img src={url} alt={`Attachment ${index + 1}`} />
                     </a>
@@ -126,9 +151,9 @@ function ViewFeedback() {
               type="button"
               className="view-feedback-resolve"
               onClick={() => changeStatus('Resolved')}
-              disabled={feedback.status === 'Resolved'}
+              disabled={saving || feedback.status === 'Resolved'}
             >
-              {feedback.status === 'Resolved' ? 'Resolved' : 'Mark Resolved'}
+              {saving ? 'Saving…' : feedback.status === 'Resolved' ? 'Resolved' : 'Mark Resolved'}
             </button>
           </>
         )}

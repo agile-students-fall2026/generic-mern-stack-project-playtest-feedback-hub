@@ -70,6 +70,50 @@ describe('POST /api/projects/:projectId/feedback', () => {
     const res = await request(app).post('/api/projects/1/feedback')
     expect(res.status).to.equal(400)
   })
+
+  it('accepts feedback at the length limit', async () => {
+    const res = await request(app).post('/api/projects/1/feedback').send({ ...validFeedback, feedback: 'a'.repeat(2000) })
+    expect(res.status).to.equal(201)
+  })
+
+  it('rejects feedback over 2000 characters', async () => {
+    const res = await request(app).post('/api/projects/1/feedback').send({ ...validFeedback, feedback: 'a'.repeat(2001) })
+    expect(res.status).to.equal(400)
+    expect(res.body.error).to.include('2000')
+  })
+
+  it('rejects more than 5 image links', async () => {
+    const imageUrls = Array.from({ length: 6 }, (_, i) => `https://example.com/${i}.png`)
+    const res = await request(app).post('/api/projects/1/feedback').send({ ...validFeedback, imageUrls })
+    expect(res.status).to.equal(400)
+    expect(res.body.error).to.include('5')
+  })
+
+  it('rejects image links that are too long or not text', async () => {
+    const longUrl = `https://example.com/${'a'.repeat(2048)}`
+    const tooLong = await request(app).post('/api/projects/1/feedback').send({ ...validFeedback, imageUrls: [longUrl] })
+    expect(tooLong.status).to.equal(400)
+    const notText = await request(app).post('/api/projects/1/feedback').send({ ...validFeedback, imageUrls: [42] })
+    expect(notText.status).to.equal(400)
+  })
+
+  it('rejects image links that are not valid URLs', async () => {
+    const res = await request(app).post('/api/projects/1/feedback').send({ ...validFeedback, imageUrls: ['not a url'] })
+    expect(res.status).to.equal(400)
+  })
+})
+
+describe('Route order', () => {
+  it('lets the projects router answer /api/projects/public', async () => {
+    const res = await request(app).get('/api/projects/public')
+    expect(res.body.error).to.not.equal('Project not found.')
+  })
+
+  it('still finds a project by id after the projects router', async () => {
+    const res = await request(app).get('/api/projects/2')
+    expect(res.status).to.equal(200)
+    expect(res.body.name).to.equal('Paper Planet')
+  })
 })
 
 describe('GET /api/projects/:projectId/feedback', () => {

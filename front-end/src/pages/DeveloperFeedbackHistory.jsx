@@ -14,16 +14,30 @@ const statusFilters = [
 
 function DeveloperFeedbackHistory() {
   const [feedback, setFeedback] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState('')
   const [filterOpen, setFilterOpen] = useState(false)
   const [statusFilter, setStatusFilter] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
+    let active = true
     // The back-end already adds each project's name as gameName.
     fetch('/api/feedback')
-      .then((res) => (res.ok ? res.json() : []))
-      .then(setFeedback)
-      .catch(() => setFeedback([]))
+      .then((res) => {
+        if (!res.ok) throw new Error(`Request failed with status ${res.status}`)
+        return res.json()
+      })
+      .then((items) => {
+        if (active) setFeedback(items)
+      })
+      .catch(() => {
+        if (active) setLoadError('Could not load feedback. Check that the back-end is running.')
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+    return () => { active = false }
   }, [])
 
   const shownFeedback = statusFilter === null
@@ -71,7 +85,11 @@ function DeveloperFeedbackHistory() {
             )}
           </div>
         </div>
-        {shownFeedback.length === 0 ? (
+        {loading ? (
+          <p className="dev-history-empty">Loading feedback…</p>
+        ) : loadError ? (
+          <p className="dev-history-empty" role="alert">{loadError}</p>
+        ) : shownFeedback.length === 0 ? (
           <p className="dev-history-empty">
             {feedback.length === 0 ? 'No feedback yet.' : 'No feedback with this status.'}
           </p>

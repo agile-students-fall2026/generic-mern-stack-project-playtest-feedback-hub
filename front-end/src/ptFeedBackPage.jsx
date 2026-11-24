@@ -37,6 +37,10 @@ function FeedBackPage() {
     }, [files])
 
     function addUrl() {
+        if (urls.length >= 5) {
+            setError('You can add up to 5 image links.')
+            return
+        }
         try {
             const parsed = new URL(url)
             if (!['https:', 'http:'].includes(parsed.protocol)) throw new Error()
@@ -101,7 +105,7 @@ function FeedBackPage() {
                     </div>
                     <div className="feedback-field">
                         <label className="feedback-label" htmlFor="feedback">Feedback*</label>
-                        <textarea className="feedback-textarea" id="feedback" name="feedback" required rows={5} placeholder="Write your feedback here..." />
+                        <textarea className="feedback-textarea" id="feedback" name="feedback" required rows={5} maxLength={2000} placeholder="Write your feedback here..." />
                     </div>
                     <div className="feedback-field">
                         <label className="feedback-label" htmlFor="images">Add images (optional)</label>
