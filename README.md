@@ -60,7 +60,9 @@ npm install
 npm run dev
 ```
 
-The server runs at http://localhost:3000. Check it with http://localhost:3000/api/health. Vite forwards every `/api` request from the front end to this server. No database or credentials are needed yet.
+The server runs at http://localhost:3000. Check it with http://localhost:3000/api/health. Vite forwards every `/api` and `/uploads` request from the front end to this server. No database or credentials are needed yet.
+
+Images that playtesters attach to feedback are saved in `back-end/uploads/` and served at `/uploads/<file name>`. PNG, JPEG, GIF and WebP files up to 5 MB are accepted, with at most 5 images per feedback. The folder is ignored by git.
 
 ## Building and Testing
 

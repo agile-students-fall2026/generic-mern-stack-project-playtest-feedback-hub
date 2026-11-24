@@ -1,5 +1,9 @@
 import { randomUUID } from 'node:crypto'
+import { mkdir, writeFile } from 'node:fs/promises'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import express from 'express'
+import multer from 'multer'
 import projects from '../data/projects.js'
 import feedback from '../data/feedback.js'
 
@@ -10,9 +14,64 @@ const statuses = ['Complete', 'Incomplete', 'WIP', 'Resolved', 'Assigned']
 const maxTextLength = 2000
 const maxImageUrls = 5
 const maxUrlLength = 2048
+const maxImageFiles = 5
+const maxImageSize = 5 * 1024 * 1024
+const imageTypes = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/gif': 'gif', 'image/webp': 'webp' }
+
+export const uploadsDir = fileURLToPath(new URL('../uploads', import.meta.url))
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: maxImageSize, files: maxImageFiles },
+  fileFilter(req, file, cb) {
+    if (Object.hasOwn(imageTypes, file.mimetype)) return cb(null, true)
+    req.rejectedImageType = true
+    cb(null, false)
+  },
+})
 
 function findProject(id) {
   return projects.find((project) => project.id === id)
+}
+
+function requireProject(req, res, next) {
+  if (!findProject(req.params.projectId)) return res.status(404).json({ error: 'Project not found.' })
+  next()
+}
+
+function receiveImages(req, res, next) {
+  upload.array('images')(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      const messages = {
+        LIMIT_FILE_SIZE: 'Each image must be 5 MB or smaller.',
+        LIMIT_FILE_COUNT: `You can upload up to ${maxImageFiles} images.`,
+      }
+      return res.status(400).json({ error: messages[err.code] ?? 'Could not read the uploaded images.' })
+    }
+    if (err) return next(err)
+    if (req.rejectedImageType) return res.status(400).json({ error: 'Images must be PNG, JPEG, GIF or WebP files.' })
+    next()
+  })
+}
+
+function readImageUrls(value) {
+  if (value === undefined) return []
+  if (typeof value !== 'string') return value
+  try {
+    return JSON.parse(value)
+  } catch {
+    return null
+  }
+}
+
+async function saveImages(files) {
+  if (files.length === 0) return []
+  await mkdir(uploadsDir, { recursive: true })
+  return Promise.all(files.map(async (file) => {
+    const name = `${randomUUID()}.${imageTypes[file.mimetype]}`
+    await writeFile(path.join(uploadsDir, name), file.buffer)
+    return `/uploads/${name}`
+  }))
 }
 
 function isWebUrl(value) {
@@ -37,11 +96,10 @@ router.get('/projects/:projectId/feedback', (req, res) => {
 })
 
 // A playtester sends feedback to a project.
-router.post('/projects/:projectId/feedback', (req, res) => {
+router.post('/projects/:projectId/feedback', requireProject, receiveImages, async (req, res) => {
   const { projectId } = req.params
-  if (!findProject(projectId)) return res.status(404).json({ error: 'Project not found.' })
-
-  const { category, feedback: text, anonymous = false, imageUrls = [] } = req.body ?? {}
+  const { category, feedback: text, anonymous = false, imageUrls: rawImageUrls } = req.body ?? {}
+  const imageUrls = readImageUrls(rawImageUrls)
   // The form sends lowercase values like "bugs"; developer pages show "Bugs".
   const label = categories.find((name) => name.toLowerCase() === String(category).toLowerCase())
   if (!label) return res.status(400).json({ error: 'Choose a valid category.' })
@@ -56,16 +114,17 @@ router.post('/projects/:projectId/feedback', (req, res) => {
     return res.status(400).json({ error: `You can add up to ${maxImageUrls} image links.` })
   }
 
+  const uploadedImages = await saveImages(req.files ?? [])
   const item = {
     id: randomUUID(),
     projectId,
     category: label,
     // Placeholder name until the account system gives us the signed-in user.
-    author: anonymous === true ? 'Anonymous' : 'Playtester',
+    author: anonymous === true || anonymous === 'true' ? 'Anonymous' : 'Playtester',
     submitted: new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }),
     status: 'Incomplete',
     text: text.trim(),
-    images: imageUrls,
+    images: [...uploadedImages, ...imageUrls],
   }
   feedback.push(item)
   res.status(201).json(item)
