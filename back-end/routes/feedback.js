@@ -102,7 +102,7 @@ router.post('/projects/:projectId/feedback', requireProject, receiveImages, asyn
   const imageUrls = readImageUrls(rawImageUrls)
   // The form sends lowercase values like "bugs"; developer pages show "Bugs".
   const label = categories.find((name) => name.toLowerCase() === String(category).toLowerCase())
-  if (!label) return res.status(400).json({ error: 'Choose a valid category.' })
+  if (!label) return res.status(400).json({ error: `Choose a valid category: ${categories.join(', ')}.` })
   if (typeof text !== 'string' || !text.trim()) return res.status(400).json({ error: 'Feedback text is required.' })
   if (text.trim().length > maxTextLength) {
     return res.status(400).json({ error: `Feedback must be ${maxTextLength} characters or fewer.` })
@@ -146,7 +146,7 @@ router.patch('/feedback/:feedbackId', (req, res) => {
   const item = feedback.find((entry) => entry.id === req.params.feedbackId)
   if (!item) return res.status(404).json({ error: 'Feedback not found.' })
   const { status } = req.body ?? {}
-  if (!statuses.includes(status)) return res.status(400).json({ error: 'Choose a valid status.' })
+  if (!statuses.includes(status)) return res.status(400).json({ error: `Choose a valid status: ${statuses.join(', ')}.` })
   item.status = status
   res.json(item)
 })
