@@ -10,7 +10,7 @@ function AddProject() {
   const [developer, setDeveloper] = useState('')
   const [description, setDescription] = useState('')
   const [error, setError] = useState('')
-  const [visbility, setVisibility] = useState('public')
+  const [visibility, setVisibility] = useState('public')
 
   function handleSubmit(event) 
   {
@@ -43,7 +43,6 @@ function AddProject() {
     <div className="add-page">
       <Header />
       <main className="add-main">
-        <Link className="add-back" onClick={() => navigate(-1)}>‹ Back</Link>
         <form onSubmit={handleSubmit}>
         <button type="button" className="change-icon">
   <svg viewBox="0 0 100 100" aria-hidden="true">
@@ -87,7 +86,6 @@ function AddProject() {
           <button type="submit" className="add-submit">Add</button>
         </form>
       </main>
-      <BottomNav />
     </div>
   )
 }
