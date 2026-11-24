@@ -49,34 +49,36 @@ function FeedbackList() {
           <>
             <div className="feedback-list-heading">
               <h1>{project.name} Feedback</h1>
-              <button
-                type="button"
-                className="feedback-filter"
-                aria-label="Filter feedback by status"
-                aria-expanded={filterOpen}
-                aria-controls="feedback-filter-menu"
-                onClick={() => setFilterOpen(!filterOpen)}
-              >
-                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-                  <path d="M5 10h22M9 16h14M13 22h6" />
-                </svg>
-              </button>
+              <div className="feedback-filter-wrap">
+                <button
+                  type="button"
+                  className="feedback-filter"
+                  aria-label="Filter feedback by status"
+                  aria-expanded={filterOpen}
+                  aria-controls="feedback-filter-menu"
+                  onClick={() => setFilterOpen(!filterOpen)}
+                >
+                  <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+                    <path d="M5 10h22M9 16h14M13 22h6" />
+                  </svg>
+                </button>
+                {filterOpen && (
+                  <ul className="feedback-filter-menu" id="feedback-filter-menu">
+                    {statusFilters.map((option) => (
+                      <li key={option.status}>
+                        <button
+                          type="button"
+                          aria-pressed={statusFilter === option.status}
+                          onClick={() => toggleStatus(option.status)}
+                        >
+                          {option.label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
-            {filterOpen && (
-              <ul className="feedback-filter-menu" id="feedback-filter-menu">
-                {statusFilters.map((option) => (
-                  <li key={option.status}>
-                    <button
-                      type="button"
-                      aria-pressed={statusFilter === option.status}
-                      onClick={() => toggleStatus(option.status)}
-                    >
-                      {option.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
             {shownFeedback.length === 0 ? (
               <p className="feedback-list-empty">
                 {feedback.length === 0 ? 'No feedback yet.' : 'No feedback with this status.'}
