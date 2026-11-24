@@ -93,11 +93,18 @@ body {
   width: 28px;
   height: 28px;
 }
-
+.feedback-filter-wrap {
+  position: relative;
+  flex: 0 0 44px;
+}
 .feedback-filter-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 1;
   box-sizing: border-box;
-  width: min(240px, 100%);
-  margin: 0 0 16px auto;
+  width: 240px;
+  margin: 0;
   padding: 4px 12px;
   background: #d9d9d9;
   list-style: none;

@@ -2,10 +2,11 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 403px;
-    min-height: 100dvh;
+    max-width: 402px;
+    min-height: 100vh;
+    min-height: 100svh;
     margin: 0 auto;
-    background: #fff;
+    background-color: #fff;
     color: #000;
     font-family: Arial, sans-serif;
   }
@@ -13,7 +14,7 @@
   .qr-main {
     flex: 1;
     box-sizing: border-box;
-    padding: 16px 20px 24px;
+    padding: 16px 24px 24px;
     text-align: center;
   }
   
