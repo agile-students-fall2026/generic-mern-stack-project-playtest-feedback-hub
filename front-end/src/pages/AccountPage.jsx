@@ -36,7 +36,7 @@ function AccountPage() {
 
     return (
         <div className="account-page">
-
+            <Header />
             <button
                 className="account-back"
                 type="button"

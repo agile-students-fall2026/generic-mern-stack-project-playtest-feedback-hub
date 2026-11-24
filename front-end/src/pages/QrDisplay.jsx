@@ -22,7 +22,7 @@ function QrDisplay() {
     <div className="qr-page">
       <Header />
       <main className="qr-main">
-        <Link className="qr-back-link" onClick={() => navigate(-1)}>‹ Back</Link>
+        
         {project === null && <p>Project not found.</p>}
         {project && (
           <>
@@ -36,9 +36,9 @@ function QrDisplay() {
             <p>Show the QR Code above to receive feedback on your project</p>
           </>
         )}
-        <Link className="qr-back-button" to="/projects">Back</Link>
+        <Link className="qr-back-button" to="/projects">Back to My Projects</Link>
       </main>
-      <BottomNav />
+      
     </div>
   )
 }

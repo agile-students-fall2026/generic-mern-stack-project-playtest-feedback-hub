@@ -3,90 +3,82 @@
     flex-direction: column;
     width: 100%;
     max-width: 402px;
-    min-height: 100svh;
     min-height: 100vh;
+    min-height: 100svh;
     margin: 0 auto;
     background-color: #fff;
     color: #000;
     font-family: Arial, sans-serif;
-  }
-  
-  .projects-main {
+}
+
+.projects-main {
     flex: 1;
     box-sizing: border-box;
-    padding: 16px 24px 24px;
-  }
-  
-  .projects-back {
+    width: 100%;
+    padding: 80px 24px 24px;
+}
+
+.projects-back {
     color: #000;
     font-size: 14px;
     text-decoration: none;
-  }
-  
-  .projects-main h1 {
-    margin: 12px 0 16px;
+}
+
+.projects-main h1 {
+    margin: 20px 0 16px;
     font-size: 32px;
     font-weight: 700;
-  }
-  
-  .project-list {
+}
+
+.project-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
     margin: 0;
     padding: 0;
     list-style: none;
-  }
-  
-  .project-card {
-    display: grid;
-    grid-template-columns: 72px 1fr 72px;
-    gap: 12px;
-    align-items: center;
-    padding: 10px;
-    border: 2px solid #000;
-    border-radius: 12px;
-  }
-  
-  .project-icon {
-    flex: 0 0 64px;
-    width: 64px;
-    height: 64px;
-    color: #000;
-  }
-  
-  .project-icon svg {
-    display: block;
-    width: 64px;
-    height: 64px;
-  }
-  
-  .project-card {
+}
+
+.project-card {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 12px;
     border: 2px solid #000;
-    border-radius: 16px;
-  }
-  
-  .project-feedback-link {
+}
+
+.project-icon {
+    flex: 0 0 64px;
+    width: 64px;
+    height: 64px;
+    color: #000;
+}
+
+.project-icon svg {
+    display: block;
+    width: 64px;
+    height: 64px;
+}
+
+.project-feedback-link {
     flex: 1;
+    min-width: 0;
     color: #000;
     text-decoration: none;
-  }
-  
-  .project-card h2 {
+}
+
+.project-card h2 {
     margin: 0;
     font-size: 18px;
-  }
-  
-  .project-card p {
-    margin: 2px 0 0;
+    font-weight: 700;
+}
+
+.project-card p {
+    margin: 4px 0 0;
     font-size: 13px;
-  }
-  
-  .project-qr {
+}
+
+.project-qr {
     display: flex;
     flex: 0 0 72px;
     flex-direction: column;
@@ -95,29 +87,35 @@
     width: 72px;
     height: 72px;
     border: 1px solid #000;
-    border-radius: 12px;
+    border-radius: 8px;
     color: #000;
     font-size: 10px;
     line-height: 1.1;
     text-align: center;
     text-decoration: none;
-  }
-  
-.project-qr svg {
-  display: block;
-  width: 64px;
-  height: 64px;
 }
-  
-  .add-project {
+
+.project-qr svg {
     display: block;
-    width: 160px;
+    width: 64px;
+    height: 64px;
+}
+
+.add-project {
+    display: block;
+    width: 100%;
     margin: 28px auto 0;
-    padding: 14px 16px;
+    padding: 16px;
     border: none;
-    background: #d9d9d9;
-    color: #000;
-    font: inherit;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
     text-align: center;
     text-decoration: none;
-  }
+    cursor: pointer;
+}
+
+.add-project:hover {
+    background-color: #333333;
+}

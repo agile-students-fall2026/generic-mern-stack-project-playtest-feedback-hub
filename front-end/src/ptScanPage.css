@@ -83,15 +83,35 @@ body {
 }
 
 .scan-description {
-    margin: 32px 0;
+    max-width: 300px;
+    margin: 32px 0 0;
     font-size: 16px;
     line-height: 24px;
 }
 
+.scan-error-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 320px;
+    height: 40px;
+}
+
+.scan-error {
+    margin: 0;
+    color: red;
+    font-size: 14px;
+    text-align: center;
+}
+
 .scan-button {
+    display: inline-grid;
+    place-items: center;
     width: 100%;
     max-width: 320px;
     min-height: 55px;
+    margin-top: 0;
     padding: 16px;
     border: none;
     background-color: black;
@@ -104,15 +124,4 @@ body {
 
 .scan-button:hover {
     background-color: #333333;
-}
-
-.scan-button:focus-visible {
-    outline: 2px solid black;
-    outline-offset: 3px;
-}
-
-.scan-error {
-    margin: 0 0 16px;
-    color: red;
-    font-size: 14px;
 }
