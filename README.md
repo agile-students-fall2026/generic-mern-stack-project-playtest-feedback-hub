@@ -69,6 +69,7 @@ Images that playtesters attach to feedback are saved in `back-end/uploads/` and 
 From `front-end`, run `npm run build` to verify a production build. Run `npm run preview` to preview that build locally.
 
 From `back-end`, run `npm test` to run the mocha and chai unit tests. Run `npm run coverage` to see code coverage with c8.
+To run a single test file, run `npx mocha test/feedback.test.js` (or any other file in `back-end/test`).
 
 ## Contributing
 
