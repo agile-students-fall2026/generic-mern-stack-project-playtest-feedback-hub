@@ -12,23 +12,43 @@ const statusFilters = [
   { label: 'Assigned', status: 'Assigned' },
 ]
 
+async function readJson(res) {
+  if (res.status === 404) return null
+  if (!res.ok) throw new Error(`Request failed with status ${res.status}`)
+  return res.json()
+}
+
 function FeedbackList() {
   const { projectId } = useParams()
   const [project, setProject] = useState(undefined)
   const [feedback, setFeedback] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState('')
   const [filterOpen, setFilterOpen] = useState(false)
   const [statusFilter, setStatusFilter] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch(`/api/projects/${encodeURIComponent(projectId)}`)
-      .then((res) => (res.ok ? res.json() : null))
-      .then(setProject)
-      .catch(() => setProject(null))
-    fetch(`/api/projects/${encodeURIComponent(projectId)}/feedback`)
-      .then((res) => (res.ok ? res.json() : []))
-      .then(setFeedback)
-      .catch(() => setFeedback([]))
+    let active = true
+    const id = encodeURIComponent(projectId)
+    setLoading(true)
+    setLoadError('')
+    Promise.all([
+      fetch(`/api/projects/${id}`).then(readJson),
+      fetch(`/api/projects/${id}/feedback`).then(readJson),
+    ])
+      .then(([projectData, items]) => {
+        if (!active) return
+        setProject(projectData)
+        setFeedback(items ?? [])
+      })
+      .catch(() => {
+        if (active) setLoadError('Could not load feedback. Check that the back-end is running.')
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+    return () => { active = false }
   }, [projectId])
 
   const shownFeedback = statusFilter === null
@@ -44,8 +64,10 @@ function FeedbackList() {
       <Header />
       <main className="feedback-list-main">
         <Link className="feedback-list-back" onClick={() => navigate(-1)}>‹ Back</Link>
-        {project === null && <p>Project not found.</p>}
-        {project && (
+        {loading && <p className="feedback-list-empty">Loading feedback…</p>}
+        {loadError && <p className="feedback-list-empty" role="alert">{loadError}</p>}
+        {!loading && !loadError && project === null && <p>Project not found.</p>}
+        {!loading && project && (
           <>
             <div className="feedback-list-heading">
               <h1>{project.name} Feedback</h1>

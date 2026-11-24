@@ -5,6 +5,8 @@ import BottomNav from './components/BottomNav.jsx'
 import { getGame, submitFeedback } from './services/feedbackApi.js'
 import './ptFeedBackPage.css'
 
+const imageTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp']
+
 function FeedBackPage() {
     const [params] = useSearchParams()
     const gameId = params.get('game')
@@ -37,6 +39,10 @@ function FeedBackPage() {
     }, [files])
 
     function addUrl() {
+        if (urls.length >= 5) {
+            setError('You can add up to 5 image links.')
+            return
+        }
         try {
             const parsed = new URL(url)
             if (!['https:', 'http:'].includes(parsed.protocol)) throw new Error()
@@ -65,6 +71,7 @@ function FeedBackPage() {
                 category: values.get('category'),
                 feedback,
                 anonymous: values.get('anonymous') === 'on',
+                images: files,
                 imageNames: files.map(file => file.name),
                 imageUrls: urls,
             })
@@ -101,15 +108,25 @@ function FeedBackPage() {
                     </div>
                     <div className="feedback-field">
                         <label className="feedback-label" htmlFor="feedback">Feedback*</label>
-                        <textarea className="feedback-textarea" id="feedback" name="feedback" required rows={5} placeholder="Write your feedback here..." />
+                        <textarea className="feedback-textarea" id="feedback" name="feedback" required rows={5} maxLength={2000} placeholder="Write your feedback here..." />
                     </div>
                     <div className="feedback-field">
                         <label className="feedback-label" htmlFor="images">Add images (optional)</label>
                         <button className="attachment-toggle" type="button" aria-expanded={attachmentsOpen} aria-controls="feedback-attachments" onClick={() => setAttachmentsOpen(!attachmentsOpen)}>Add Images / URLs...</button>
                         <div id="feedback-attachments" hidden={!attachmentsOpen}>
-                        <input id="images" type="file" accept="image/*" multiple onChange={event => {
+                        <input id="images" type="file" accept={imageTypes.join(',')} multiple onChange={event => {
                             const selected = Array.from(event.target.files)
-                            if (selected.some(file => !file.type.startsWith('image/') || file.size > 5 * 1024 * 1024)) {
+                            if (selected.length > 5) {
+                                setError('You can upload up to 5 images.')
+                                event.target.value = ''
+                                return
+                            }
+                            if (selected.some(file => !imageTypes.includes(file.type))) {
+                                setError('Images must be PNG, JPEG, GIF or WebP files.')
+                                event.target.value = ''
+                                return
+                            }
+                            if (selected.some(file => file.size > 5 * 1024 * 1024)) {
                                 setError('Choose images smaller than 5 MB each.')
                                 event.target.value = ''
                                 return
