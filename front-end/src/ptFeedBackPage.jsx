@@ -75,7 +75,7 @@ function FeedBackPage() {
                 imageNames: files.map(file => file.name),
                 imageUrls: urls,
             })
-            navigate('/feedback/success')
+            navigate('/feedback/success', { replace: true })
         } catch (err) {
             setError(err.message)
         } finally {
