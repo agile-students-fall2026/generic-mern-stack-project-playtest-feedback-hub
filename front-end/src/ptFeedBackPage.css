@@ -290,6 +290,12 @@
     outline-offset: 3px;
 }
 
+.feedback-game-placeholder {
+    width: 64px;
+    height: 64px;
+    background-color: #d9d9d9;
+}
+
 .write-feedback-shell .feedback-anonymous {
     display: flex;
     align-items: center;

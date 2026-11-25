@@ -98,7 +98,7 @@ function FeedBackPage() {
                     <p className="feedback-game-label">Playtest Feedback for</p>
                     <h1 className="feedback-game-title">{game?.name || 'Loading game…'}</h1>
                     <p className="feedback-game-developer">{game && `by ${game.developer}`}</p>
-                    <svg className="feedback-game-placeholder" viewBox="0 0 84 84" role="img" aria-label="Project image placeholder"><rect x="1" y="1" width="82" height="82" rx="28" /><path d="m9 9 66 66M75 9 9 75" /></svg>
+                    <div className="feedback-game-placeholder" aria-hidden="true"></div>
                 </header>
                 {error && <p role="alert">{error}</p>}
                 {game && signedOut && (
