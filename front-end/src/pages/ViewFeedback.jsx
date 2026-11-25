@@ -122,7 +122,16 @@ function ViewFeedback() {
                 <h1>{project?.name ?? 'Unknown project'}</h1>
                 {project && <p className="view-feedback-game-developer">by {project.developer}</p>}
               </div>
-              <div className="view-feedback-icon" aria-hidden="true"></div>
+              <div className="view-feedback-icon">
+                {project?.image ? (
+                  <img src={project.image} alt="" />
+                ) : (
+                  <svg viewBox="0 0 100 100" aria-hidden="true">
+                    <rect x="4" y="4" width="92" height="92" rx="24" fill="none" stroke="currentColor" strokeWidth="3" />
+                    <path d="M18 18 L82 82 M82 18 L18 82" fill="none" stroke="currentColor" strokeWidth="3" />
+                  </svg>
+                )}
+              </div>
             </div>
             <h2 className="view-feedback-label">Feedback Category</h2>
             <p className="view-feedback-field">{feedback.category}</p>
