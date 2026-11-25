@@ -245,3 +245,9 @@
     opacity: 0.5;
     cursor: default;
 }
+.view-feedback-icon img {
+  display: block;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}

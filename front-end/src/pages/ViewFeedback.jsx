@@ -75,7 +75,7 @@ function ViewFeedback() {
       <Header />
       <main className="view-feedback-main">
         <div className="view-feedback-top">
-          
+
           {feedback && (
             <div className="view-feedback-status-picker">
               <button
@@ -123,10 +123,14 @@ function ViewFeedback() {
                 {project && <p className="view-feedback-game-developer">by {project.developer}</p>}
               </div>
               <span className="view-feedback-icon" aria-hidden="true">
-                <svg viewBox="0 0 100 100">
-                  <rect x="4" y="4" width="92" height="92" rx="24" fill="none" stroke="currentColor" strokeWidth="3" />
-                  <path d="M18 18 L82 82 M82 18 L18 82" fill="none" stroke="currentColor" strokeWidth="3" />
-                </svg>
+                {project?.image ? (
+                  <img src={project.image} alt="" />
+                ) : (
+                  <svg viewBox="0 0 100 100">
+                    <rect x="4" y="4" width="92" height="92" rx="24" fill="none" stroke="currentColor" strokeWidth="3" />
+                    <path d="M18 18 L82 82 M82 18 L18 82" fill="none" stroke="currentColor" strokeWidth="3" />
+                  </svg>
+                )}
               </span>
             </div>
             <h2 className="view-feedback-label">Feedback Category</h2>
@@ -158,7 +162,7 @@ function ViewFeedback() {
           </>
         )}
       </main>
-      
+
     </div>
   )
 }
