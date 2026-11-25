@@ -60,10 +60,7 @@ function AddProject() {
             {preview ? (
               <img src={preview} alt="" />
             ) : (
-              <svg viewBox="0 0 100 100" aria-hidden="true">
-                <rect x="4" y="4" width="92" height="92" rx="16" fill="none" stroke="currentColor" strokeWidth="3" />
-                <path d="M18 18 L82 82 M82 18 L18 82" fill="none" stroke="currentColor" strokeWidth="3" />
-              </svg>
+              <div className="change-icon-placeholder"></div>
             )}
             Choose Image
             <input

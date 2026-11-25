@@ -34,7 +34,8 @@
 }
 
 .account-avatar {
-    display: flex;
+    /* to bring the pfp back, put display: flex; */
+    display: none;
     justify-content: center;
     align-items: center;
     width: 120px;

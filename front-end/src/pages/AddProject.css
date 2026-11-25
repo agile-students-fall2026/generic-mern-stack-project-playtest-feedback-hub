@@ -130,3 +130,9 @@
   height: 96px;
   object-fit: cover;
 }
+
+.change-icon-placeholder {
+    width: 96px;
+    height: 96px;
+    background-color: #d9d9d9;
+}

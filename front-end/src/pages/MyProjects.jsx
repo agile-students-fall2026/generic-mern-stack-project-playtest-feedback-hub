@@ -43,10 +43,7 @@ function MyProjects() {
                 {project.image ? (
                   <img src={project.image} alt="" />
                 ) : (
-                  <svg viewBox="0 0 100 100">
-                    <rect x="4" y="4" width="92" height="92" rx="16" fill="none" stroke="currentColor" strokeWidth="3" />
-                    <path d="M18 18 L82 82 M82 18 L18 82" fill="none" stroke="currentColor" strokeWidth="3" />
-                  </svg>
+                  <div className="project-icon-placeholder"></div>
                 )}
               </span>
               <Link className="project-feedback-link" to={`/projects/${project.id}/feedback`}>
