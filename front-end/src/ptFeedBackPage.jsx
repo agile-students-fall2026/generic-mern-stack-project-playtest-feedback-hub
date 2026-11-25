@@ -98,7 +98,11 @@ function FeedBackPage() {
                     <p className="feedback-game-label">Playtest Feedback for</p>
                     <h1 className="feedback-game-title">{game?.name || 'Loading game…'}</h1>
                     <p className="feedback-game-developer">{game && `by ${game.developer}`}</p>
-                    <div className="feedback-game-placeholder" aria-hidden="true"></div>
+                    {game?.image ? (
+                        <img className="feedback-game-placeholder" src={game.image} alt="" />
+                    ) : (
+                        <div className="feedback-game-placeholder" aria-hidden="true"></div>
+                    )}
                 </header>
                 {error && <p role="alert">{error}</p>}
                 {game && signedOut && (
@@ -124,41 +128,41 @@ function FeedBackPage() {
                         <label className="feedback-label" htmlFor="images">Add images (optional)</label>
                         <button className="attachment-toggle" type="button" aria-expanded={attachmentsOpen} aria-controls="feedback-attachments" onClick={() => setAttachmentsOpen(!attachmentsOpen)}>Add Images / URLs...</button>
                         <div id="feedback-attachments" hidden={!attachmentsOpen}>
-                        <input id="images" type="file" accept={imageTypes.join(',')} multiple onChange={event => {
-                            const selected = Array.from(event.target.files)
-                            if (selected.length > 5) {
-                                setError('You can upload up to 5 images.')
-                                event.target.value = ''
-                                return
-                            }
-                            if (selected.some(file => !imageTypes.includes(file.type))) {
-                                setError('Images must be PNG, JPEG, GIF or WebP files.')
-                                event.target.value = ''
-                                return
-                            }
-                            if (selected.some(file => file.size > 5 * 1024 * 1024)) {
-                                setError('Choose images smaller than 5 MB each.')
-                                event.target.value = ''
-                                return
-                            }
-                            setFiles(selected)
-                            setError('')
-                        }} />
-                        {previews.map((item, index) => (
-                            <div className="feedback-image" key={item.url}>
-                                <img src={item.url} alt={`Attachment: ${item.name}`} />
-                                <button type="button" onClick={() => setFiles(files.filter((_, i) => i !== index))}>Remove {item.name}</button>
-                            </div>
-                        ))}
-                        <label htmlFor="image-url">Image URL</label>
-                        <input className="feedback-select" id="image-url" type="url" value={url} onChange={event => setUrl(event.target.value)} placeholder="https://…" />
-                        <button className="feedback-button" type="button" onClick={addUrl}>Add URL</button>
-                        {urls.map((item, index) => (
-                            <div className="feedback-url" key={`${item}-${index}`}>
-                                <a href={item} target="_blank" rel="noreferrer">{item}</a>
-                                <button type="button" onClick={() => setUrls(urls.filter((_, i) => i !== index))}>Remove link</button>
-                            </div>
-                        ))}
+                            <input id="images" type="file" accept={imageTypes.join(',')} multiple onChange={event => {
+                                const selected = Array.from(event.target.files)
+                                if (selected.length > 5) {
+                                    setError('You can upload up to 5 images.')
+                                    event.target.value = ''
+                                    return
+                                }
+                                if (selected.some(file => !imageTypes.includes(file.type))) {
+                                    setError('Images must be PNG, JPEG, GIF or WebP files.')
+                                    event.target.value = ''
+                                    return
+                                }
+                                if (selected.some(file => file.size > 5 * 1024 * 1024)) {
+                                    setError('Choose images smaller than 5 MB each.')
+                                    event.target.value = ''
+                                    return
+                                }
+                                setFiles(selected)
+                                setError('')
+                            }} />
+                            {previews.map((item, index) => (
+                                <div className="feedback-image" key={item.url}>
+                                    <img src={item.url} alt={`Attachment: ${item.name}`} />
+                                    <button type="button" onClick={() => setFiles(files.filter((_, i) => i !== index))}>Remove {item.name}</button>
+                                </div>
+                            ))}
+                            <label htmlFor="image-url">Image URL</label>
+                            <input className="feedback-select" id="image-url" type="url" value={url} onChange={event => setUrl(event.target.value)} placeholder="https://…" />
+                            <button className="feedback-button" type="button" onClick={addUrl}>Add URL</button>
+                            {urls.map((item, index) => (
+                                <div className="feedback-url" key={`${item}-${index}`}>
+                                    <a href={item} target="_blank" rel="noreferrer">{item}</a>
+                                    <button type="button" onClick={() => setUrls(urls.filter((_, i) => i !== index))}>Remove link</button>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <label className="feedback-anonymous">
