@@ -75,7 +75,7 @@ function ViewFeedback() {
       <Header />
       <main className="view-feedback-main">
         <div className="view-feedback-top">
-          
+
           {feedback && (
             <div className="view-feedback-status-picker">
               <button
@@ -153,7 +153,7 @@ function ViewFeedback() {
           </>
         )}
       </main>
-      
+
     </div>
   )
 }
