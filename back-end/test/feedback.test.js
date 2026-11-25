@@ -116,6 +116,7 @@ describe('Route order', () => {
 describe('Account feedback', () => {
   let owner
   let tester
+  let testerCredentials
   let projectId
   let feedbackId
 
@@ -124,18 +125,21 @@ describe('Account feedback', () => {
     const agent = request.agent(app)
     await agent.post('/api/auth/register').send(credentials).expect(201)
     await agent.post('/api/auth/login').send(credentials).expect(200)
-    return agent
+    return { agent, credentials }
   }
 
   before(async () => {
-    owner = await registerAndSignIn()
-    tester = await registerAndSignIn()
+    owner = (await registerAndSignIn()).agent
+    const submitter = await registerAndSignIn()
+    tester = submitter.agent
+    testerCredentials = submitter.credentials
     const project = await owner.post('/api/projects').send({ name: 'Feedback Game', developer: 'Test Developer' }).expect(201)
     projectId = project.body.id
     const response = await tester.post(`/api/projects/${projectId}/feedback`)
-      .send({ ...validFeedback, anonymous: true }).expect(201)
+      .send({ ...validFeedback, anonymous: true, submitterId: 'spoofed-account' }).expect(201)
     feedbackId = response.body.id
     expect(response.body.author).to.equal('Anonymous')
+    expect(response.body).not.to.have.property('submitterId')
   })
 
   it('returns only that project\'s feedback', async () => {
@@ -143,16 +147,32 @@ describe('Account feedback', () => {
     expect(res.body.map((item) => item.id)).to.deep.equal([feedbackId])
   })
 
+  it('keeps an anonymous submission in the submitter’s history after signing in again', async () => {
+    const newSession = request.agent(app)
+    await newSession.post('/api/auth/login').send(testerCredentials).expect(200)
+    const history = await newSession.get('/api/feedback/mine').expect(200)
+    expect(history.headers['cache-control']).to.equal('no-store')
+    expect(history.body).to.have.lengthOf(1)
+    expect(history.body[0]).to.include({ id: feedbackId, author: 'Anonymous', gameName: 'Feedback Game' })
+    expect(history.body[0]).not.to.have.property('submitterId')
+    const ownerHistory = await owner.get('/api/feedback/mine').expect(200)
+    expect(ownerHistory.body).to.deep.equal([])
+  })
+
   it('shows received feedback only to the project owner and accepts guest QR submissions', async () => {
     const guest = await request(app).post(`/api/projects/${projectId}/feedback`).send(validFeedback).expect(201)
     const received = await owner.get('/api/feedback').expect(200)
     expect(received.body.map((item) => item.id)).to.deep.equal([guest.body.id, feedbackId])
     expect(received.body[1]).to.include({ author: 'Anonymous', gameName: 'Feedback Game' })
+    expect(received.body[1]).not.to.have.property('submitterId')
     const otherReceived = await tester.get('/api/feedback').expect(200)
     expect(otherReceived.body).to.deep.equal([])
+    const testerHistory = await tester.get('/api/feedback/mine').expect(200)
+    expect(testerHistory.body.map((item) => item.id)).to.deep.equal([feedbackId])
   })
 
   it('rejects signed-out access to account feedback', async () => {
+    await request(app).get('/api/feedback/mine').expect(401)
     await request(app).get('/api/feedback').expect(401)
     await request(app).get(`/api/projects/${projectId}/feedback`).expect(401)
     await request(app).get(`/api/feedback/${feedbackId}`).expect(401)
@@ -171,6 +191,7 @@ describe('Account feedback', () => {
   it('lets the project owner view and update the feedback', async () => {
     const detail = await owner.get(`/api/feedback/${feedbackId}`).expect(200)
     expect(detail.body).to.include({ id: feedbackId, author: 'Anonymous' })
+    expect(detail.body).not.to.have.property('submitterId')
     const update = await owner.patch(`/api/feedback/${feedbackId}`).send({ status: 'Resolved' }).expect(200)
     expect(update.body.status).to.equal('Resolved')
   })

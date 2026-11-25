@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Header from './components/Header.jsx'
 import BottomNav from './components/BottomNav.jsx'
 import { getGame, submitFeedback } from './services/feedbackApi.js'
+import { authRequest } from './api/auth.js'
 import './ptFeedBackPage.css'
 
 const imageTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp']
@@ -11,6 +12,7 @@ function FeedBackPage() {
     const [params] = useSearchParams()
     const gameId = params.get('game')
     const [game, setGame] = useState(null)
+    const [signedOut, setSignedOut] = useState(false)
     const [error, setError] = useState('')
     const [files, setFiles] = useState([])
     const [previews, setPreviews] = useState([])
@@ -19,6 +21,14 @@ function FeedBackPage() {
     const [busy, setBusy] = useState(false)
     const [attachmentsOpen, setAttachmentsOpen] = useState(false)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        let active = true
+        authRequest('me').catch(error => {
+            if (active && error.status === 401) setSignedOut(true)
+        })
+        return () => { active = false }
+    }, [])
 
     useEffect(() => {
         let active = true
@@ -66,13 +76,10 @@ function FeedBackPage() {
         try {
             await submitFeedback({
                 gameId: game.id,
-                gameName: game.name,
-                developer: game.developer,
                 category: values.get('category'),
                 feedback,
                 anonymous: values.get('anonymous') === 'on',
                 images: files,
-                imageNames: files.map(file => file.name),
                 imageUrls: urls,
             })
             navigate('/feedback/success', { replace: true })
@@ -94,6 +101,9 @@ function FeedBackPage() {
                     <svg className="feedback-game-placeholder" viewBox="0 0 84 84" role="img" aria-label="Project image placeholder"><rect x="1" y="1" width="82" height="82" rx="28" /><path d="m9 9 66 66M75 9 9 75" /></svg>
                 </header>
                 {error && <p role="alert">{error}</p>}
+                {game && signedOut && (
+                    <p><Link to="/signin" state={{ feedbackGame: game.id }}>Sign in</Link> to save this submission to your feedback history.</p>
+                )}
                 <form className="feedback-form" onSubmit={handleSubmit}>
                     <div className="feedback-field">
                         <label className="feedback-label" htmlFor="category">Feedback Category*</label>

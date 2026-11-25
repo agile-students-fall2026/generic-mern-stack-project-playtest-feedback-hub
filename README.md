@@ -103,8 +103,9 @@ or expired.
 After signing in, create a project from My Projects. Each account sees its own
 projects and can review the feedback those projects receive. Public projects appear
 in Explore. Private projects are accessible through their direct playtest link or QR code.
-Guests can submit feedback through a playtest link. The project owner sees their
-feedback in Developer Feedback History.
+Feedback submitted while signed in appears in that account's Feedback History,
+including anonymous submissions. Guests can still submit through a playtest link,
+and the project owner receives their feedback.
 
 Accounts, sessions, and newly created project and feedback records are stored in
 memory and cleared when the backend restarts. Persistent storage is follow-up work.

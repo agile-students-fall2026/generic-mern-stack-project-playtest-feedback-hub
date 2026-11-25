@@ -1,5 +1,3 @@
-const storageKey = 'playtest-demo-feedback'
-
 export async function getGame(id) {
     const response = await fetch(`/api/projects/${encodeURIComponent(id)}`)
     if (response.status === 404) throw new Error('Game not found. Check your playtest link.')
@@ -7,9 +5,14 @@ export async function getGame(id) {
     return response.json()
 }
 
-export function getFeedbackHistory() {
-    const saved = JSON.parse(localStorage.getItem(storageKey) || '[]')
-    return Array.isArray(saved) ? saved : []
+export async function getFeedbackHistory(signal) {
+    const response = await fetch('/api/feedback/mine', { signal })
+    if (!response.ok) {
+        const error = new Error('Could not load your feedback history.')
+        error.status = response.status
+        throw error
+    }
+    return response.json()
 }
 
 // Sends the feedback to the project on the back-end.
@@ -29,12 +32,5 @@ export async function submitFeedback(data) {
     const body = await response.json().catch(() => ({}))
     if (!response.ok) throw new Error(body.error || 'Could not send your feedback. Please try again.')
 
-    // Also keep a copy in this browser so the Feedback History page works until accounts exist.
-    const submission = { ...details, id: body.id, createdAt: new Date().toISOString() }
-    try {
-        localStorage.setItem(storageKey, JSON.stringify([submission, ...getFeedbackHistory()]))
-    } catch {
-        // The feedback was already sent, so a full or blocked browser storage is not an error.
-    }
-    return submission
+    return body
 }
