@@ -35,7 +35,7 @@ function MyProjects() {
         <h1>My Projects</h1>
         {!projects && !error && <p>Loading projects…</p>}
         {error && <p role="alert">{error} {signedOut && <Link to="/signin">Sign in</Link>}</p>}
-        {projects?.length === 0 && <p>No projects yet.</p>}
+        {projects?.length === 0 && <p></p>}
         <ul className="project-list">
           {projects?.map((project) => (
            <li className="project-card" key={project.id}>

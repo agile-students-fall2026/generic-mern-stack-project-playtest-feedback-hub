@@ -78,7 +78,7 @@ function Explore() {
                     {!loading && !error && (
                         <p className="explore-count">
                             {projects.length}{''} 
-                            {projects.length === 1 ? 'project' : 'projects'} found
+                            {projects.length === 1 ? 'project' : ' projects'} found
                         </p>
                     )}
 
