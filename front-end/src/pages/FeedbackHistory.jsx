@@ -34,8 +34,8 @@ function FeedbackHistory() {
                     <p className="feedback-list-empty">Loading feedback…</p>
                 ) : history.length === 0 ? (
                     <p className="feedback-list-empty">
-                        No feedback yet.{' '}
-                        <Link to="/scan">Start a playtest.</Link>
+                        No feedback found.{' '}
+                        <Link to="/explore">Find a project</Link>
                     </p>
                 ) : (
                     <div className="feedback-cards">
