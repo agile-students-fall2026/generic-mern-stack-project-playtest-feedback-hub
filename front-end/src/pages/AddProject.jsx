@@ -54,7 +54,6 @@ function AddProject() {
     <div className="add-page">
       <Header />
       <main className="add-main">
-        <Link className="add-back" onClick={() => navigate(-1)}>‹ Back</Link>
         <form onSubmit={handleSubmit}>
         <button type="button" className="change-icon">
   <svg viewBox="0 0 100 100" aria-hidden="true">
@@ -98,7 +97,6 @@ function AddProject() {
           <button type="submit" className="add-submit" disabled={pending}>{pending ? 'Adding…' : 'Add'}</button>
         </form>
       </main>
-      <BottomNav />
     </div>
   )
 }
