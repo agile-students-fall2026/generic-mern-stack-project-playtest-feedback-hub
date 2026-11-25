@@ -1,19 +1,30 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import Header from '../components/Header.jsx'
-import BottomNav from '../components/BottomNav.jsx'
-//import { getProjects } from '../mocks/projects.js'
 import './MyProjects.css'
 
 function MyProjects() {
-  const [projects, setProjects] = useState([])
-  const navigate = useNavigate()
+  const [projects, setProjects] = useState(null)
+  const [error, setError] = useState('')
+  const [signedOut, setSignedOut] = useState(false)
 
   useEffect(() => {
-    fetch('/api/projects')
-      .then((response) => response.json())
+    const controller = new AbortController()
+    fetch('/api/projects', { signal: controller.signal })
+      .then((response) => {
+        if (response.status === 401) {
+          setSignedOut(true)
+          throw new Error('Sign in to view your projects.')
+        }
+        if (!response.ok) throw new Error('Could not load your projects.')
+        return response.json()
+      })
       .then(setProjects)
+      .catch((error) => {
+        if (!controller.signal.aborted) setError(error.message)
+      })
+    return () => controller.abort()
   }, [])
 
   return (
@@ -22,8 +33,11 @@ function MyProjects() {
       <main className="projects-main">
         
         <h1>My Projects</h1>
+        {!projects && !error && <p>Loading projects…</p>}
+        {error && <p role="alert">{error} {signedOut && <Link to="/signin">Sign in</Link>}</p>}
+        {projects?.length === 0 && <p>No projects yet.</p>}
         <ul className="project-list">
-          {projects.map((project) => (
+          {projects?.map((project) => (
            <li className="project-card" key={project.id}>
            <span className="project-icon" aria-hidden="true">
              <svg viewBox="0 0 100 100">
@@ -45,7 +59,7 @@ function MyProjects() {
          </li>
           ))}
         </ul>
-        <Link className="add-project" to="/projects/new">Add Project</Link>
+        {projects && <Link className="add-project" to="/projects/new">Add Project</Link>}
       </main>
       
     </div>

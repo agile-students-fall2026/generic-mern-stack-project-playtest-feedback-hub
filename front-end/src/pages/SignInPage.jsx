@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { authRequest } from '../api/auth.js'
 import './SignInPage.css'
 import './AuthPages.css'
@@ -8,6 +8,7 @@ function SignInPage() {
     const [error, setError] = useState('')
     const [pending, setPending] = useState(false)
     const navigate = useNavigate()
+    const { state } = useLocation()
 
     async function handleSubmit(event) {
         event.preventDefault()
@@ -26,7 +27,10 @@ function SignInPage() {
         setPending(true)
         try {
             await authRequest('login', { email, password })
-            navigate('/developer', { replace: true })
+            const destination = typeof state?.feedbackGame === 'string'
+                ? `/feedback?game=${encodeURIComponent(state.feedbackGame)}`
+                : '/developer'
+            navigate(destination, { replace: true })
         } catch (error) {
             setError(error.message)
         } finally {

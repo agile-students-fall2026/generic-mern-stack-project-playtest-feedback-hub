@@ -35,6 +35,7 @@ export function identifyUser(req, res, next) {
 }
 
 export function requireUser(req, res, next) {
+  res.set('Cache-Control', 'no-store')
   if (!req.user) return res.status(401).json({ error: 'Please sign in to continue.' })
   next()
 }

@@ -25,14 +25,15 @@ function DeveloperFeedbackHistory() {
     // The back-end already adds each project's name as gameName.
     fetch('/api/feedback')
       .then((res) => {
-        if (!res.ok) throw new Error(`Request failed with status ${res.status}`)
+        if (res.status === 401) throw new Error('Sign in to view feedback on your projects.')
+        if (!res.ok) throw new Error('Could not load feedback. Please try again.')
         return res.json()
       })
       .then((items) => {
         if (active) setFeedback(items)
       })
-      .catch(() => {
-        if (active) setLoadError('Could not load feedback. Check that the back-end is running.')
+      .catch((error) => {
+        if (active) setLoadError(error.message)
       })
       .finally(() => {
         if (active) setLoading(false)

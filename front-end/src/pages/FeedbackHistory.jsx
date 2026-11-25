@@ -1,20 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header.jsx'
-import BottomNav from '../components/BottomNav.jsx'
 import { getFeedbackHistory } from '../services/feedbackApi.js'
 import '../ptFeedBackPage.css'
 import './FeedbackHistory.css'
 
 function FeedbackHistory() {
     const navigate = useNavigate()
-    const [history] = useState(() => {
-        try { 
-            return getFeedbackHistory() 
-        } catch { 
-            return [] 
-        }
-    })
+    const [history, setHistory] = useState(null)
+    const [error, setError] = useState(null)
+
+    useEffect(() => {
+        const controller = new AbortController()
+        getFeedbackHistory(controller.signal).then(setHistory).catch(error => {
+            if (!controller.signal.aborted) setError(error)
+        })
+        return () => controller.abort()
+    }, [])
 
     return (
         <div className="feedback-list-page">
@@ -24,7 +26,13 @@ function FeedbackHistory() {
                 
                 <h1 className="feedback-list-heading h1">Feedback Log</h1>
 
-                {history.length === 0 ? (
+                {error?.status === 401 ? (
+                    <p className="feedback-list-empty"><Link to="/signin">Sign in</Link> to see your feedback history.</p>
+                ) : error ? (
+                    <p className="feedback-list-empty" role="alert">{error.message}</p>
+                ) : !history ? (
+                    <p className="feedback-list-empty">Loading feedback…</p>
+                ) : history.length === 0 ? (
                     <p className="feedback-list-empty">
                         No feedback yet.{' '}
                         <Link to="/scan">Start a playtest.</Link>
@@ -43,18 +51,17 @@ function FeedbackHistory() {
                                     </span>
 
                                     <span className="history-date">
-                                        submitted {' '} {new Date(item.createdAt).toLocaleDateString()}
+                                        submitted {item.submitted}
                                     </span>
                                 </summary>
 
                                 <div className="history-card-content">
                                     <p>Category: {item.category}</p>
-                                    <p>{item.feedback}</p>
-                                    <p>{item.anonymous ? 'Anonymous feedback' : 'Non-anonymous feedback'}</p>
+                                    <p>{item.text}</p>
+                                    <p>{item.author === 'Anonymous' ? 'Anonymous feedback' : 'Non-anonymous feedback'}</p>
                                 </div>       
                                 
-                                {item.imageNames?.map((name, index) => <p key={index}>Attachment filename: {name}</p>)}
-                                {item.imageUrls?.map((url, index) => <p key={index}><a href={url} target="_blank" rel="noreferrer">Image link {index + 1}</a></p>)}
+                                {item.images.map((url, index) => <p key={index}><a href={url} target="_blank" rel="noreferrer">Image {index + 1}</a></p>)}
                             </details>
                         ))}
                     </div>
