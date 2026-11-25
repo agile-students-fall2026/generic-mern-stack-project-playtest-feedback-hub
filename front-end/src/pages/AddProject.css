@@ -121,3 +121,12 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+.change-icon input {
+  display: none;
+}
+
+.change-icon img {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+}
