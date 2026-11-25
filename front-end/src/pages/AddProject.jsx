@@ -13,6 +13,8 @@ function AddProject() {
   const [visibility, setVisibility] = useState('public')
   const [pending, setPending] = useState(false)
   const [signedOut, setSignedOut] = useState(false)
+  const [file, setFile] = useState(null)
+  const [preview, setPreview] = useState('')
 
   async function handleSubmit(event) {
     event.preventDefault()
@@ -24,18 +26,17 @@ function AddProject() {
     setPending(true)
     setSignedOut(false)
     setError('')
-    const iconSeed = encodeURIComponent(name.trim().toLowerCase().replace(/\s+/g, '-'))
+    //const iconSeed = encodeURIComponent(name.trim().toLowerCase().replace(/\s+/g, '-'))
     try {
+      const body = new FormData()
+      body.append('name', name.trim())
+      body.append('developer', developer.trim())
+      body.append('description', description.trim())
+      body.append('visibility', visibility)
+      if (file) body.append('image', file)
       const response = await fetch('/api/projects', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name.trim(),
-          developer: developer.trim(),
-          description: description.trim(),
-          visibility,
-          image: `https://picsum.photos/seed/${iconSeed}/88/88`,
-        }),
+        body,
       })
       if (!response.ok) {
         setSignedOut(response.status === 401)
@@ -55,13 +56,27 @@ function AddProject() {
       <Header />
       <main className="add-main">
         <form onSubmit={handleSubmit}>
-        <button type="button" className="change-icon">
-  <svg viewBox="0 0 100 100" aria-hidden="true">
-    <rect x="4" y="4" width="92" height="92" rx="16" fill="none" stroke="currentColor" strokeWidth="3" />
-    <path d="M18 18 L82 82 M82 18 L18 82" fill="none" stroke="currentColor" strokeWidth="3" />
-  </svg>
-  Change Icon
-</button>
+          <label className="change-icon">
+            {preview ? (
+              <img src={preview} alt="" />
+            ) : (
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <rect x="4" y="4" width="92" height="92" rx="16" fill="none" stroke="currentColor" strokeWidth="3" />
+                <path d="M18 18 L82 82 M82 18 L18 82" fill="none" stroke="currentColor" strokeWidth="3" />
+              </svg>
+            )}
+            Choose Image
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/gif,image/webp"
+              onChange={(event) => {
+                const picked = event.target.files?.[0]
+                if (!picked) return
+                setFile(picked)
+                setPreview(URL.createObjectURL(picked))
+              }}
+            />
+          </label>
           <label>
             Game Name*
             <input
