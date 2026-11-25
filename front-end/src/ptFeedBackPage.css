@@ -344,3 +344,6 @@
     outline: 2px solid #000;
     outline-offset: 3px;
 }
+img.feedback-game-placeholder {
+  object-fit: cover;
+}
