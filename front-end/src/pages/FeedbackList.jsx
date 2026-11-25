@@ -14,7 +14,8 @@ const statusFilters = [
 
 async function readJson(res) {
   if (res.status === 404) return null
-  if (!res.ok) throw new Error(`Request failed with status ${res.status}`)
+  if (res.status === 401) throw new Error('Sign in to view feedback on your projects.')
+  if (!res.ok) throw new Error('Could not load feedback. Please try again.')
   return res.json()
 }
 
@@ -39,11 +40,11 @@ function FeedbackList() {
     ])
       .then(([projectData, items]) => {
         if (!active) return
-        setProject(projectData)
+        setProject(items === null ? null : projectData)
         setFeedback(items ?? [])
       })
-      .catch(() => {
-        if (active) setLoadError('Could not load feedback. Check that the back-end is running.')
+      .catch((error) => {
+        if (active) setLoadError(error.message)
       })
       .finally(() => {
         if (active) setLoading(false)
@@ -67,7 +68,7 @@ function FeedbackList() {
         {loading && <p className="feedback-list-empty">Loading feedback…</p>}
         {loadError && <p className="feedback-list-empty" role="alert">{loadError}</p>}
         {!loading && !loadError && project === null && <p>Project not found.</p>}
-        {!loading && project && (
+        {!loading && !loadError && project && (
           <>
             <div className="feedback-list-heading">
               <h1>{project.name} Feedback</h1>

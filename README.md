@@ -100,8 +100,14 @@ SameSite=Strict cookie. In production mode, the cookie requires HTTPS.
 `GET /api/auth/me` returns the current account or 401 when the session is missing
 or expired.
 
-Accounts and sessions are stored in memory and cleared when the backend restarts.
-Persistent storage and production hardening are follow-up work.
+After signing in, create a project from My Projects. Each account sees its own
+projects and can review the feedback those projects receive. Public projects appear
+in Explore. Private projects are accessible through their direct playtest link or QR code.
+Guests can submit feedback through a playtest link. The project owner sees their
+feedback in Developer Feedback History.
+
+Accounts, sessions, and newly created project and feedback records are stored in
+memory and cleared when the backend restarts. Persistent storage is follow-up work.
 
 Run `npm test` in `back-end` for the account and existing API tests, and
 `npm run build` in `front-end` to check the UI build. To review manually, register a

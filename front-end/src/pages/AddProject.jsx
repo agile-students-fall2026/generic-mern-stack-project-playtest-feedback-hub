@@ -10,33 +10,44 @@ function AddProject() {
   const [developer, setDeveloper] = useState('')
   const [description, setDescription] = useState('')
   const [error, setError] = useState('')
-  const [visbility, setVisibility] = useState('public')
+  const [visibility, setVisibility] = useState('public')
+  const [pending, setPending] = useState(false)
+  const [signedOut, setSignedOut] = useState(false)
 
-  function handleSubmit(event) 
-  {
+  async function handleSubmit(event) {
     event.preventDefault()
+    if (pending) return
     if (name.trim() === '' || developer.trim() === '') {
       setError('Game Name and Developer are required.')
       return
     }
-   const iconSeed = encodeURIComponent(name.trim().toLowerCase().replace(/\s+/g, '-'))
-   fetch('/api/projects', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name: name.trim(),
-      developer: developer.trim(),
-      description: description.trim(),
-      visibility,
-      image: `https://picsum.photos/seed/${iconSeed}/88/88`,
-    }),
-  })
-  .then(async (response) => {
-    const body = await response.json()
-    if (!response.ok) throw new Error(body.error || 'Could not add project.')
-    navigate('/projects')
-  })
-  .catch((err) => setError(err.message))
+    setPending(true)
+    setSignedOut(false)
+    setError('')
+    const iconSeed = encodeURIComponent(name.trim().toLowerCase().replace(/\s+/g, '-'))
+    try {
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          developer: developer.trim(),
+          description: description.trim(),
+          visibility,
+          image: `https://picsum.photos/seed/${iconSeed}/88/88`,
+        }),
+      })
+      if (!response.ok) {
+        setSignedOut(response.status === 401)
+        const body = await response.json().catch(() => null)
+        throw new Error(body?.error || 'Could not add project.')
+      }
+      navigate('/projects')
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setPending(false)
+    }
   }
 
   return (
@@ -80,11 +91,11 @@ function AddProject() {
             Visibility
             <select value={visibility} onChange={(event) => setVisibility(event.target.value)}>
               <option value="public">Public</option>
-              <option value="private">Private</option>
+              <option value="private">Private (link only)</option>
             </select>
           </label>
-          {error !== '' && <p className="add-error">{error}</p>}
-          <button type="submit" className="add-submit">Add</button>
+          {error && <p className="add-error" role="alert">{error} {signedOut && <Link to="/signin">Sign in</Link>}</p>}
+          <button type="submit" className="add-submit" disabled={pending}>{pending ? 'Adding…' : 'Add'}</button>
         </form>
       </main>
       <BottomNav />

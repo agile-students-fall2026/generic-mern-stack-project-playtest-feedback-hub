@@ -1,4 +1,5 @@
 import { expect } from 'chai'
+import { randomUUID } from 'node:crypto'
 import request from 'supertest'
 import app from '../app.js'
 
@@ -35,9 +36,6 @@ describe('POST /api/projects/:projectId/feedback', () => {
     })
     expect(res.body.images).to.deep.equal(['https://example.com/bug.png'])
     expect(res.body.submitted).to.match(/^\d{2}\/\d{2}\/\d{4}$/)
-
-    const list = await request(app).get('/api/projects/2/feedback')
-    expect(list.body.map((item) => item.id)).to.include(res.body.id)
   })
 
   it('hides the author when anonymous', async () => {
@@ -105,8 +103,7 @@ describe('POST /api/projects/:projectId/feedback', () => {
 
 describe('Route order', () => {
   it('lets the projects router answer /api/projects/public', async () => {
-    const res = await request(app).get('/api/projects/public')
-    expect(res.body.error).to.not.equal('Project not found.')
+    await request(app).get('/api/projects/public').expect(200)
   })
 
   it('still finds a project by id after the projects router', async () => {
@@ -116,57 +113,69 @@ describe('Route order', () => {
   })
 })
 
-describe('GET /api/projects/:projectId/feedback', () => {
+describe('Account feedback', () => {
+  let owner
+  let tester
+  let projectId
+  let feedbackId
+
+  async function registerAndSignIn() {
+    const credentials = { email: `feedback-${randomUUID()}@example.com`, password: 'test-password' }
+    const agent = request.agent(app)
+    await agent.post('/api/auth/register').send(credentials).expect(201)
+    await agent.post('/api/auth/login').send(credentials).expect(200)
+    return agent
+  }
+
+  before(async () => {
+    owner = await registerAndSignIn()
+    tester = await registerAndSignIn()
+    const project = await owner.post('/api/projects').send({ name: 'Feedback Game', developer: 'Test Developer' }).expect(201)
+    projectId = project.body.id
+    const response = await tester.post(`/api/projects/${projectId}/feedback`)
+      .send({ ...validFeedback, anonymous: true }).expect(201)
+    feedbackId = response.body.id
+    expect(response.body.author).to.equal('Anonymous')
+  })
+
   it('returns only that project\'s feedback', async () => {
-    const res = await request(app).get('/api/projects/3/feedback')
-    expect(res.status).to.equal(200)
-    expect(res.body).to.have.length.above(0)
-    expect(res.body.every((item) => item.projectId === '3')).to.equal(true)
+    const res = await owner.get(`/api/projects/${projectId}/feedback`).expect(200)
+    expect(res.body.map((item) => item.id)).to.deep.equal([feedbackId])
   })
 
-  it('returns 404 for an unknown project', async () => {
-    const res = await request(app).get('/api/projects/999/feedback')
-    expect(res.status).to.equal(404)
-  })
-})
-
-describe('GET /api/feedback', () => {
-  it('returns all feedback newest first with game names', async () => {
-    const res = await request(app).get('/api/feedback')
-    expect(res.status).to.equal(200)
-    const dates = res.body.map((item) => new Date(item.submitted).getTime())
-    expect(dates).to.deep.equal([...dates].sort((a, b) => b - a))
-    expect(res.body.find((item) => item.id === '7').gameName).to.equal('Paper Planet')
-  })
-})
-
-describe('GET /api/feedback/:feedbackId', () => {
-  it('returns one feedback item', async () => {
-    const res = await request(app).get('/api/feedback/1')
-    expect(res.status).to.equal(200)
-    expect(res.body.author).to.equal('Sam Rivera')
+  it('shows received feedback only to the project owner and accepts guest QR submissions', async () => {
+    const guest = await request(app).post(`/api/projects/${projectId}/feedback`).send(validFeedback).expect(201)
+    const received = await owner.get('/api/feedback').expect(200)
+    expect(received.body.map((item) => item.id)).to.deep.equal([guest.body.id, feedbackId])
+    expect(received.body[1]).to.include({ author: 'Anonymous', gameName: 'Feedback Game' })
+    const otherReceived = await tester.get('/api/feedback').expect(200)
+    expect(otherReceived.body).to.deep.equal([])
   })
 
-  it('returns 404 for unknown feedback', async () => {
-    const res = await request(app).get('/api/feedback/nope')
-    expect(res.status).to.equal(404)
+  it('rejects signed-out access to account feedback', async () => {
+    await request(app).get('/api/feedback').expect(401)
+    await request(app).get(`/api/projects/${projectId}/feedback`).expect(401)
+    await request(app).get(`/api/feedback/${feedbackId}`).expect(401)
+    await request(app).patch(`/api/feedback/${feedbackId}`).send({ status: 'Resolved' }).expect(401)
   })
-})
 
-describe('PATCH /api/feedback/:feedbackId', () => {
-  it('changes the status', async () => {
-    const res = await request(app).patch('/api/feedback/2').send({ status: 'Resolved' })
-    expect(res.status).to.equal(200)
-    expect(res.body.status).to.equal('Resolved')
+  it('returns 404 for missing or other accounts’ projects and received feedback', async () => {
+    await owner.get('/api/projects/999/feedback').expect(404)
+    await owner.get('/api/feedback/nope').expect(404)
+    await owner.patch('/api/feedback/nope').send({ status: 'Resolved' }).expect(404)
+    await tester.get(`/api/projects/${projectId}/feedback`).expect(404)
+    await tester.get(`/api/feedback/${feedbackId}`).expect(404)
+    await tester.patch(`/api/feedback/${feedbackId}`).send({ status: 'Resolved' }).expect(404)
+  })
+
+  it('lets the project owner view and update the feedback', async () => {
+    const detail = await owner.get(`/api/feedback/${feedbackId}`).expect(200)
+    expect(detail.body).to.include({ id: feedbackId, author: 'Anonymous' })
+    const update = await owner.patch(`/api/feedback/${feedbackId}`).send({ status: 'Resolved' }).expect(200)
+    expect(update.body.status).to.equal('Resolved')
   })
 
   it('rejects an unknown status', async () => {
-    const res = await request(app).patch('/api/feedback/2').send({ status: 'Done' })
-    expect(res.status).to.equal(400)
-  })
-
-  it('returns 404 for unknown feedback', async () => {
-    const res = await request(app).patch('/api/feedback/nope').send({ status: 'Resolved' })
-    expect(res.status).to.equal(404)
+    await owner.patch(`/api/feedback/${feedbackId}`).send({ status: 'Done' }).expect(400)
   })
 })

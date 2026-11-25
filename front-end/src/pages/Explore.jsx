@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Header from '../components/Header.jsx'
-import BottomNav from '../components/BottomNav.jsx'
 import './Explore.css'
-import projects from '../../../back-end/data/projects.js'
 
 function Explore() {
     const [projects, setProjects] = useState([])
@@ -11,7 +9,6 @@ function Explore() {
     const [sort, setSort] = useState('newest')
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
-    const navigate = useNavigate()
 
     useEffect(() => {
         setLoading(true)
@@ -22,10 +19,10 @@ function Explore() {
             sort,
         })
 
-        fetch(`/api/projects/public?search=${params.toString()}`)
+        fetch(`/api/projects/public?${params.toString()}`)
             .then(async (response) => {
                 if (!response.ok) {
-                    throw new Error('Failed to load projects (waiting for MongoDB connection).')
+                    throw new Error('Could not load public projects.')
                 }
 
                 return response.json()
@@ -102,7 +99,7 @@ function Explore() {
                                         <h2>{project.name}</h2>
                                         <p className="explore-developer">by {project.developer}</p>
                                         <p className="explore-submitted">submitted {project.submitted}</p>
-                                        <Link className="explore-view-project" to={`/projects/${project.id}/feedback`}>View Project</Link>
+                                        <Link className="explore-view-project" to={`/feedback?game=${encodeURIComponent(project.id)}`}>Leave Feedback</Link>
                                     </div>
                                 </li>
                             ))}
